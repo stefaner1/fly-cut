@@ -3,72 +3,72 @@ import { formatTime } from '@/utils/common';
 export interface CanvasConfig {
     width: number,
     height: number,
-    bgColor: string, // 背景颜色
-    ratio: number, // 设备像素比
-    textSize: number, // 字号
-    textScale: number, // 支持更小号字： 10 / 12
-    lineWidth: number, // 线宽
-    textBaseline: string, // 文字对齐基线 (ts 中定义的textBaseLine是一个联合类型)
-    textAlign: string, // 文字对齐方式
-    longColor: string, // 长线段颜色
-    shortColor: string, // 短线段颜色
-    textColor: string, // 文字颜色
-    subTextColor: string, // 小文字颜色
-    focusColor: string, // 选中元素区间
-    lineColor: string // 底线颜色
+    bgColor: string, // Background color
+    ratio: number, // Device pixel ratio
+    textSize: number, // Font size
+    textScale: number, // Support smaller font size: 10 / 12
+    lineWidth: number, // Line width
+    textBaseline: string, // Text alignment baseline (textBaseLine is a union type in ts)
+    textAlign: string, // Text alignment
+    longColor: string, // Long line segment color
+    shortColor: string, // Short line segment color
+    textColor: string, // Text color
+    subTextColor: string, // Small text color
+    focusColor: string, // Selected element interval
+    lineColor: string // Bottom line color
 }
 export interface UserConfig {
-    start: number, // 开始坐标
-    step: number, // 步进，与视频fps同步
-    scale: number, // 时间轴缩放比例
-    focusPosition: { // 选中元素时在时间轴中高亮显示
-        start: number, // 起始帧数
-        end: number, // 结束帧数
-        frameCount: number // 总帧数
+    start: number, // Start coordinate
+    step: number, // Step, sync with video fps
+    scale: number, // Timeline scale ratio
+    focusPosition: { // Highlight when element is selected in timeline
+        start: number, // Start frame number
+        end: number, // End frame number
+        frameCount: number // Total frame count
     }
 }
-// 标尺中每小格代表的宽度(根据scale的不同实时变化)
+// Width of each small grid in ruler (changes in real-time based on scale)
 const getGridSize = (scale: number) : number => {
     const scaleNum = new Map([
-        // 切换比例：最小单位为帧
+        // Scale ratio: minimum unit is frame
         [100, 100],
         [90, 50],
         [80, 20],
         [70, 10],
-        // 切换比例：最小单位为秒
+        // Scale ratio: minimum unit is second
         [60, 80],
         [50, 40],
         [40, 20],
         [30, 10],
-        // 切换比例：最小单位为6秒 一大格为 1分钟
+        // Scale ratio: minimum unit is 6 seconds, one large grid is 1 minute
         [20, 40],
         [10, 25],
         [0, 10]
     ]);
     return scaleNum.get(scale) || 100;
 };
-// 获取当前scale下的单元格像素
+// Get unit cell pixels under current scale
 export const getGridPixel = (scale: number, frameCount: number) => {
     let gridPixel = getGridSize(scale);
     let trackWidth = gridPixel * frameCount;
-    if (scale < 70) { // 1秒一格
+    if (scale < 70) { // 1 second per grid
         trackWidth = trackWidth / 30;
     }
-    if (scale < 30) { // 6秒一格
+    if (scale < 30) { // 6 seconds per grid
         trackWidth = trackWidth / 6;
     }
     return trackWidth;
 };
-// 根据缩放比调整 step
+// Adjust step based on zoom ratio
 const getStep = (scale: number, frameStep: number) : number => {
     return scale > 60 ? frameStep : 10;
 };
-// 转换时间格式
+// Convert time format
 export const getLongText = (count: number, scale: number) => {
-    let time = count; // 一个大单元格为 1 秒
-    if (scale < 30) { // 一个单元格为 1 分钟
+    let time = count; // One large unit cell is 1 second
+    if (scale < 30) { // One unit cell is 1 minute
         time *= 60;
-    } else if (scale < 70) { // 一个大单元格为 10 秒
+    } else if (scale < 70) { // One large unit cell is 10 seconds
         time *= 10;
     }
     return formatTime(time * 1000).str;
@@ -76,84 +76,83 @@ export const getLongText = (count: number, scale: number) => {
 const getShortText = (count: number, step: number, scale: number) => {
     const index = count % step;
     let text = '';
-    if (scale < 70) { // 一个单元格为 1 秒钟
+    if (scale < 70) { // One unit cell is 1 second
         return '';
-    } else { // 一个单元格为 1 帧
+    } else { // One unit cell is 1 frame
         text = scale > 80 ? (index === 0 ? '' : `${index < 10 ? '0' : ''}${index}f`) : '';
     }
     return text;
 };
-const lineWidth = 0.5; // 线条宽度
+const lineWidth = 0.5; // Line width
 
-// 获取选中点的帧坐标
+// Get frame coordinates of selected point
 export const getSelectFrame = (offsetX: number, scale: number, frameStep: number) => {
     const size = getGridSize(scale);
-    if (scale < 70) { // 一个单元格为 1 秒
+    if (scale < 70) { // One unit cell is 1 second
         offsetX *= frameStep;
     }
-    if (scale < 30) { // 一个单元格为 6 秒
+    if (scale < 30) { // One unit cell is 6 seconds
         offsetX *= 6;
     }
     return Math.round(offsetX / size);
 };
 /**
- * 时间轴画线
+ * Draw timeline
  * */
 export const drawTimeLine = (context: CanvasRenderingContext2D, userConfigs: UserConfig, canvasConfigs: CanvasConfig) => {
     const { start, scale, step: frameStep, focusPosition } = userConfigs;
     const { ratio, bgColor, width, height, textColor, subTextColor, textSize, textScale, focusColor, longColor, shortColor } = canvasConfigs;
     const step = getStep(scale, frameStep);
 
-    // 初始化画布
+    // Initialize canvas
     context.scale(ratio, ratio);
     context.clearRect(0, 0, width, height);
 
-    // 1. 时间轴底色
+    // 1. Timeline background color
     context.fillStyle = bgColor;
     context.fillRect(0, 0, width, height);
 
-    // 2. 计算网格
-    const gridSizeS = getGridSize(scale); // 匹配当前缩放下每小格的宽度
-    const gridSizeB = gridSizeS * step; // 根据步进计算每大格的宽度
+    // 2. Calculate grid
+    const gridSizeS = getGridSize(scale); // Match small grid width under current zoom
+    const gridSizeB = gridSizeS * step; // Calculate large grid width based on step
 
-    const startValueS = Math.floor(start / gridSizeS) * gridSizeS; // 小格绘制起点的刻度(start 向下取 gridSizeS 的整数倍)
-    const startValueB = Math.floor(start / gridSizeB) * gridSizeB; // 大格绘制起点的刻度(start 向下取 gridSizeB 的整数倍)
+    const startValueS = Math.floor(start / gridSizeS) * gridSizeS; // Small grid drawing start scale (start rounded down to gridSizeS multiple)
+    const startValueB = Math.floor(start / gridSizeB) * gridSizeB; // Large grid drawing start scale (start rounded down to gridSizeB multiple)
 
-    const offsetXS = (startValueS - start); // 小格起点刻度距离原点(start)的px距离
-    const offsetXB = (startValueB - start); // 大格起点刻度距离原点(start)的px距离
-    const endValue = start + Math.ceil(width); // 终点刻度(略超出标尺宽度即可)
+    const offsetXS = (startValueS - start); // Small grid start scale distance from origin (start) in px
+    const offsetXB = (startValueB - start); // Large grid start scale distance from origin (start) in px
+    const endValue = start + Math.ceil(width); // End scale (slightly beyond ruler width)
 
-    // 3. 时间轴聚焦元素
+    // 3. Timeline focus element
     if (focusPosition) {
         let fStart = focusPosition.start;
         let fCount = focusPosition.end - focusPosition.start;
-        if (scale < 70) { // 一个单元格为 1 秒
+        if (scale < 70) { // One unit cell is 1 second
             fStart = fStart / 30;
             fCount = fCount / 30;
         }
-        if (scale < 30) { // 一个单元格为 6 秒
+        if (scale < 30) { // One unit cell is 6 seconds
             fStart = fStart / 6;
             fCount = fCount / 6;
         }
-        const focusS = (fStart * gridSizeS + lineWidth - start); // 选中起点坐标
-        const focusW = (fCount * gridSizeS - lineWidth); // 选中宽度
-        if (focusW > gridSizeS) { // 小于一个小格的元素就不提示了
+        const focusS = (fStart * gridSizeS + lineWidth - start); // Selected start coordinate
+        const focusW = (fCount * gridSizeS - lineWidth); // Selected width
+        if (focusW > gridSizeS) { // Don't show if smaller than one small grid
             context.fillStyle = focusColor;
             context.fillRect(focusS, 0, focusW, height * 3 / 8);
         }
     }
 
-    // 4. 初始化刻度和文字画笔
-    context.beginPath(); // 一定要记得开关路径
+    // 4. Initialize scale and text brush
+    context.beginPath(); // Remember to open/close path
     context.fillStyle = textColor;
     context.strokeStyle = longColor;
 
     /**
-     * 5. 长间隔和文字
-     * 长间隔和短间隔需分开两次绘制，才可以完成不同颜色的设置；
-     * 分开放到两个for循环是为了节省性能，因为如果放到一个for循环的话，每次循环都会重新绘制操作dom
-     *
-     * */
+     * 5. Long intervals and text
+     * Long and short intervals need to be drawn separately to achieve different colors;
+     * Split into two for loops to save performance, as putting in one loop would redraw DOM operations each iteration
+     */
     for (let value = startValueB, count = 0; value < endValue; value += gridSizeB, count++) {
         const x = offsetXB + count * gridSizeB + lineWidth; // prevent canvas 1px line blurry
         context.moveTo(x, 0);
@@ -161,8 +160,8 @@ export const drawTimeLine = (context: CanvasRenderingContext2D, userConfigs: Use
         context.translate(x, height * 0.4);
         context.scale(textScale / ratio, textScale / ratio);
         const text = getLongText(value / gridSizeB, scale);
-        const textPositionX = text.length * 5 * textScale * ratio; // 文字长度的一半
-        const textPositionY = ((textSize / ratio * textScale / ratio) / 2); // 文字高度的一半
+        const textPositionX = text.length * 5 * textScale * ratio; // Half of text length
+        const textPositionY = ((textSize / ratio * textScale / ratio) / 2); // Half of text height
         context.fillText(text, textPositionX, textPositionY);
         context.restore();
         context.lineTo(x, height * 10 / 16 / ratio);
@@ -170,7 +169,7 @@ export const drawTimeLine = (context: CanvasRenderingContext2D, userConfigs: Use
     context.stroke();
     context.closePath();
 
-    // 6. 短间隔和文字 只在特殊放大倍数下显示文字
+    // 6. Short intervals and text - only show text at special zoom levels
     context.beginPath();
     context.fillStyle = subTextColor;
     context.strokeStyle = shortColor;
@@ -182,8 +181,8 @@ export const drawTimeLine = (context: CanvasRenderingContext2D, userConfigs: Use
             context.save();
             context.translate(x, height * 0.4);
             context.scale(textScale / ratio, textScale / ratio);
-            const textPositionX = text.length * 5 * textScale * ratio; // 文字长度的一半
-            const textPositionY = ((textSize / ratio * textScale / ratio) / 2); // 文字高度的一半
+            const textPositionX = text.length * 5 * textScale * ratio; // Half of text length
+            const textPositionY = ((textSize / ratio * textScale / ratio) / 2); // Half of text height
             context.fillText(text, textPositionX, textPositionY);
             context.restore();
         }
@@ -194,6 +193,6 @@ export const drawTimeLine = (context: CanvasRenderingContext2D, userConfigs: Use
     context.stroke();
     context.closePath();
 
-    // 恢复ctx matrix
+    // Restore ctx matrix
     context.setTransform(1, 0, 0, 1, 0, 0);
 };

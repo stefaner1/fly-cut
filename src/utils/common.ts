@@ -1,13 +1,13 @@
 import { baseFps } from '@/data/trackConfig';
 
-// 生成 16 进制指定长度的字符串
+// Generate hexadecimal string of specified length
 function getRandom(len: number) {
     return Math.floor((1 + Math.random()) * (16 ** len))
         .toString(16)
         .substring(1);
 }
 /**
- *  时间格式化
+ *  Time formatting
  * */
 export function formatTime(time: number) {
     let second = Math.ceil(time / 1000);
@@ -34,28 +34,28 @@ export function formatPlayerTime(frameCount: number) {
     return `${h < 10 ? '0' : ''}${h}:${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}:${f < 10 ? '0' : ''}${f}`;
 }
 /**
- *  获取随机ID，组件拖到预览视图后就会被设置个ID
+ *  Get random ID, components dragged to preview view will be assigned an ID
  * */
 export function getId(prefix = 't') {
     return `${prefix ? `${prefix}-` : ''}${getRandom(5)}${getRandom(3)}-${getRandom(4)}`;
 }
 /**
- * 下载文件
+ * Download file
  * */
 export function downloadFileUrl(href: string, fileName: string) {
     const downloadElement = document.createElement('a');
     downloadElement.href = href;
-    // 下载后文件名
+    // File name after download
     downloadElement.download = fileName;
     document.body.appendChild(downloadElement);
     downloadElement.click();
     document.body.removeChild(downloadElement);
-    // 释放掉blob对象
+    // Release blob object
     window.URL.revokeObjectURL(href);
     downloadElement.href = '';
 }
 /**
- * 根据中心点计算左上角顶点位置
+ * Calculate top-left vertex position based on center point
  */
 export function calcLeftTopByCenter(center: { x: number, y: number }, width: number, height: number) {
     return {
@@ -64,7 +64,7 @@ export function calcLeftTopByCenter(center: { x: number, y: number }, width: num
     };
 }
 
-// 获取canvas中文本应该显示的宽高
+// Get text width and height in canvas
 // export function getTextRect({ text = 'Hello World', fontSize = 40 }) {
 //     const canvas = document.createElement('canvas');
 //     const ctx = canvas.getContext('2d');
@@ -107,17 +107,17 @@ export function getTextRect({ text = 'Hello World', fontSize = 40, fontFamily }:
 }
 
 export function calcTrackItemAttr(trackItem: Record<string, any>, canvasSize: { width: number, height: number }, trackAttr: Record<string, any> = {}) {
-    const { width: sourceWidth, height: sourceHeight, type, text = '默认文本', fontSize = 40, style } = trackItem;
+    const { width: sourceWidth, height: sourceHeight, type, text = 'Default Text', fontSize = 40, style } = trackItem;
     const { width: playerW, height: playerH } = canvasSize;
     let defaultW = playerW;
     let defaultH = playerH;
     if (['image', 'video'].includes(type)) {
-        const proportionalW = Math.floor(playerH / sourceHeight * sourceWidth); // 等高宽度
-        const proportionalH = Math.floor(playerW / sourceWidth * sourceHeight); // 等宽高度
-        // 默认渲染位置
-        if (proportionalW > playerW) { // 等高场景下宽度溢出，则采用等宽， 高度上下留白
+        const proportionalW = Math.floor(playerH / sourceHeight * sourceWidth); // Proportional width at equal height
+        const proportionalH = Math.floor(playerW / sourceWidth * sourceHeight); // Proportional height at equal width
+        // Default render position
+        if (proportionalW > playerW) { // If width overflows in equal height scenario, use equal width with vertical padding
             defaultH = proportionalH;
-        } else if (proportionalH > playerH) { // 等宽场景下高度溢出，则采用等高， 宽度左右留白
+        } else if (proportionalH > playerH) { // If height overflows in equal width scenario, use equal height with horizontal padding
             defaultW = proportionalW;
         }
 
@@ -146,6 +146,7 @@ export function calcTrackItemAttr(trackItem: Record<string, any>, canvasSize: { 
         text,
         fontSize,
         // color: style.fill,
+
         style
     };
 }
@@ -157,12 +158,12 @@ export function computedItemShowArea(trackItem: Record<string, any>, canvasSize:
     let defaultW = playerW;
     let defaultH = playerH;
     if (type === 'video') {
-        const proportionalW = Math.floor(playerH / height * width); // 等高宽度
-        const proportionalH = Math.floor(playerW / width * height); // 等宽高度
-        // 默认渲染位置
-        if (proportionalW > playerW) { // 等高场景下宽度溢出，则采用等宽， 高度上下留白
+        const proportionalW = Math.floor(playerH / height * width); // Proportional width at equal height
+        const proportionalH = Math.floor(playerW / width * height); // Proportional height at equal width
+        // Default render position
+        if (proportionalW > playerW) { // If width overflows in equal height scenario, use equal width with vertical padding
             defaultH = proportionalH;
-        } else if (proportionalH > playerH) { // 等宽场景下高度溢出，则采用等高， 宽度左右留白
+        } else if (proportionalH > playerH) { // If height overflows in equal width scenario, use equal height with horizontal padding
             defaultW = proportionalW;
         }
     }
@@ -174,7 +175,7 @@ export function computedItemShowArea(trackItem: Record<string, any>, canvasSize:
         defaultW = text.length * fontSize;
         defaultH = fontSize * 1.2;
     }
-    // 由默认位置计算偏移缩放位置
+    // Calculate offset and scaled position from default position
     const scaleW = Math.floor(defaultW * scale / 100);
     const scaleH = Math.floor(defaultH * scale / 100);
     const scaleL = Math.floor(left + (defaultW - scaleW) / 2);
@@ -197,7 +198,7 @@ export function computedItemShowArea(trackItem: Record<string, any>, canvasSize:
 export function isVideo(type: string) {
     return type === 'video';
 }
-// 封装json格式化, 避免error
+// Wrap JSON parsing to avoid errors
 export function getJsonParse(jsonStr: string): any {
     let res = '';
     try {
@@ -221,26 +222,26 @@ export const file2ArrayBuffer = (file: File): Promise<ArrayBuffer> => {
 
 export const file2Unit8Stream = async(file: File): Promise<ReadableStream<Uint8Array>> => {
     const unit8Array = new Uint8Array(await file2ArrayBuffer(file));
-    // 创建一个空的 ReadableStream
+    // Create an empty ReadableStream
     return new ReadableStream({
         start(controller) {
-            // 使用 enqueue 方法将 Uint8Array 推送到 ReadableStream
+            // Push Uint8Array to ReadableStream using enqueue method
             controller.enqueue(unit8Array);
 
-            // 关闭 ReadableStream，表示没有更多的数据会被推送
+            // Close ReadableStream, indicating no more data will be pushed
             controller.close();
         }
     });
 };
 /**
- * 获取当前字幕
+ * Get current subtitle
  * @param asr 
  * @param frame 
  */
 export const getCurSubtitle = (asr: { beginTime: number, endTime: number, text: string }[], frame: number) => {
-    // 将frame转换为当前时间
+    // Convert frame to current time
     const time = frame * 1000 / baseFps;
-    // 当time在beginTime和endTime之间时，返回当前字幕
+    // Return current subtitle when time is between beginTime and endTime
     for (let i = 0; i < asr.length; i++) {
         const { beginTime, endTime, text } = asr[i];
         if (time >= beginTime && time <= endTime) {
@@ -251,7 +252,7 @@ export const getCurSubtitle = (asr: { beginTime: number, endTime: number, text: 
 };
 
 /**
- * 精确计时器
+ * Precise timer
  * @param callback 
  * @param interval 
  * @returns 
@@ -265,7 +266,7 @@ export function preciseInterval(callback: () => void, interval: number) {
 
         if (timestamp >= expected) {
             callback();
-            // 累积期望的时间，以保持精确的间隔
+            // Accumulate expected time to maintain precise intervals
             expected += interval;
         }
 
@@ -274,7 +275,7 @@ export function preciseInterval(callback: () => void, interval: number) {
 
     requestAnimationFrame(step);
 
-    // 返回一个对象包含取消方法
+    // Return an object containing cancel method
     return {
         cancel: () => {
             stop = true;

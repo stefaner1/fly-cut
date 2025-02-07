@@ -75,22 +75,22 @@
   }
   const icons = computed(() => [
     {
-      title: '撤销',
+      title: 'Undo',
       disable: true,
       icon: 'UndoIcon'
     },
     {
-      title: '前进',
+      title: 'Redo',
       disable: true,
       icon: 'RedoIcon'
     },
     {
-      title: '分割',
+      title: 'Split',
       disable: trackStore.selectTrackItem.line === -1 && trackStore.selectTrackItem.index === -1,
       icon: 'SplitIcon'
     },
     {
-      title: '删除',
+      title: 'Delete',
       disable: trackStore.selectTrackItem.line === -1 && trackStore.selectTrackItem.index === -1,
       icon: 'DeleteIcon'
     }
@@ -112,7 +112,7 @@
     } else if (type === 'RedoIcon') {
       // store._redo();
     } else if (type === 'SplitIcon') {
-      // 判断分割时间是否在视频内
+      // Check if split time is within video
       let splitTime = playerStore.playStartFrame;
       let active = trackStore.trackList[trackStore.selectTrackItem.line].list[trackStore.selectTrackItem.index];
 

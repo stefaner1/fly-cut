@@ -56,7 +56,7 @@
   });
 
   const emit = defineEmits({
-    // 校验事件
+    // Validate events
     'update:newWidth': val => {
       return val !== null;
     },
@@ -88,7 +88,7 @@
   const iconColor = computed(() => {
     return store.isDark ? '#E5E7EB' : '#1F2937';
   });
-  // 定位数据缓存
+  // Position data cache
   const positionState = {
     left: 0,
     top: 0

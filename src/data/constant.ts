@@ -1,10 +1,10 @@
-// 全局常量
+// Global constants
 export const Constant = {
   TokenKey: 'access_token',
   Uid: 'uid',
   ThemeKey: 'dark'
 };
-// 文件类型
+// File types
 export const FileTypeMap = {
   bpm: 'image/bpm',
   png: 'image/png',
@@ -18,25 +18,25 @@ export const defaultMoveOptions = {
   draggable: true,
   resizable: false,
   scalable: true,
-  dragArea: false, // 开启 控制拖动区域
-  origin: false, // 原点是否可见
-  snappable: true, // 开启辅助线
-  stopPropagation: true, // 阻止冒泡
+  dragArea: false, // Enable drag area control
+  origin: false, // Whether origin point is visible
+  snappable: true, // Enable guide lines
+  stopPropagation: true, // Stop event propagation
   snapThreshold: 5,
-  isDisplaySnapDigit: true, // 是否显示辅助线距离
-  snapGap: true, // 画块辅助线
-  snapElement: true, // 基于元素的辅助线
-  snapCenter: true, // 中心辅助线
-  snapDigit: 10, // 吸附距离
-  snapVertical: true, // 垂直辅助线
-  snapHorizontal: true, // 水平辅助线
+  isDisplaySnapDigit: true, // Whether to display guide line distance
+  snapGap: true, // Block guide lines
+  snapElement: true, // Element-based guide lines
+  snapCenter: true, // Center guide lines
+  snapDigit: 10, // Snap distance
+  snapVertical: true, // Vertical guide lines
+  snapHorizontal: true, // Horizontal guide lines
   throttleDrag: 1,
   throttleResize: 1,
   throttleScale: 0.01,
-  keepRatio: true, // 保持宽高比
-  renderDirections: ['nw', 'ne', 'se', 'sw'], // 手柄锚点
-  rotatable: false, // 是否可旋转
+  keepRatio: true, // Maintain aspect ratio
+  renderDirections: ['nw', 'ne', 'se', 'sw'], // Handle anchor points
+  rotatable: false, // Whether rotatable
   throttleRotate: 0.2,
   elementGuidelines: [],
-  pinchable: false // 捏合开关
+  pinchable: false // Pinch toggle
 };

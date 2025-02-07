@@ -1,4 +1,4 @@
-/* Logo 字体 */
+/* Logo font */
 @font-face {
   font-family: "iconfont logo";
   src: url('https://at.alicdn.com/t/font_985780_km7mi63cihi.eot?t=1545807318834');
@@ -48,7 +48,6 @@
   color: #666;
 }
 
-
 #tabs .active {
   border-bottom-color: #f00;
   color: #222;
@@ -58,7 +57,7 @@
   display: none;
 }
 
-/* 页面布局 */
+/* Page layout */
 .main {
   padding: 30px 100px;
   width: 960px;
@@ -129,14 +128,14 @@
 }
 
 .icon_lists .svg-icon {
-  /* 通过设置 font-size 来改变图标大小 */
+  /* Change icon size by setting font-size */
   width: 1em;
-  /* 图标和文字相邻时，垂直对齐 */
+  /* Vertically align when icon is adjacent to text */
   vertical-align: -0.15em;
-  /* 通过设置 color 来改变 SVG 的颜色/fill */
+  /* Change SVG color/fill by setting color */
   fill: currentColor;
-  /* path 和 stroke 溢出 viewBox 部分在 IE 下会显示
-      normalize.css 中也包含这行 */
+  /* Path and stroke overflow part of viewBox will be displayed in IE
+      This line is also included in normalize.css */
   overflow: hidden;
 }
 
@@ -145,7 +144,7 @@
   color: #666;
 }
 
-/* markdown 样式 */
+/* markdown style */
 .markdown {
   color: #666;
   font-size: 14px;
@@ -323,7 +322,6 @@
   clear: both;
 }
 
-
 .hljs {
   display: block;
   background: white;
@@ -391,7 +389,7 @@
   text-decoration: underline;
 }
 
-/* 代码高亮 */
+/* Code highlighting */
 /* PrismJS 1.15.0
 https://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascript */
 /**

@@ -36,30 +36,30 @@ export default defineConfig({
       resolvers: [
         ElementPlusResolver(),
         VueHooksPlusResolver(),
-        // 自动导入图标组件
+        // Auto import icon components
         IconsResolver({
           prefix: 'Icon'
         })
       ],
-      eslintrc: { // 生成eslint的配置文件，需要在eslint配置中导入
+      eslintrc: { // Generate eslint config file, needs to be imported in eslint config
         enabled: true, // Default `false`
         globalsPropValue: 'readonly' // Default `true`, (true | false | 'readonly' | 'readable' | 'writable' | 'writeable')
       }
     }),
     Components({
       resolvers: [
-        // 自动注册图标组件
+        // Auto register icon components
         IconsResolver({
           enabledCollections: ['ep']
         }),
-        // 自动导入 Element Plus 组件
+        // Auto import Element Plus components
         ElementPlusResolver()
       ]
     }),
     Icons({
       autoInstall: true
     }),
-    // 本地代理服务
+    // Local proxy service
     ViteProxyServer()
   ],
   resolve: {

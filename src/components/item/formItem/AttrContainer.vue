@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
   /**
-   * 遍历递归FormItem
+   * Iterate and recursively render FormItem
    * */
   const props = defineProps({
     attrData: {

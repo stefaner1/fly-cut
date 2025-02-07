@@ -1,15 +1,15 @@
 # fly-cut
 
-## 简介
-基于Webcodecs + Vue3实现的Web端剪辑工具 <br/>
-如果有用请 🌟 Star 🌟 支持一下哟 🫣 <br/>
+## Introduction
+A web-based video editing tool implemented with Webcodecs + Vue3 <br/>
+If you find it useful, please 🌟 Star 🌟 to show your support 🫣 <br/>
 
-## 功能
+## Features
 ![](coverImage/map.png)
 
-## 预览
+## Preview
 ![](coverImage/preview.gif)
 
-## 参考
-- https://github.com/hughfenghen/WebAV 基于 WebCodecs 在浏览器中处理音视频数据；用来处理音视频文件
-- https://github.com/Cc-Edit/CcClip 使用Vue3 + ffmpeg实现的Web剪辑工具，本项目主题功能基于本项目开发
+## References
+- https://github.com/hughfenghen/WebAV Processing audio and video data in browser based on WebCodecs; used for handling audio and video files
+- https://github.com/Cc-Edit/CcClip A web-based editing tool implemented with Vue3 + ffmpeg, this project's main functionality is based on this project

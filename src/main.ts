@@ -7,13 +7,13 @@ import './assets/main.css';
 import '@/assets/iconfont/iconfont.css';
 import 'element-plus/es/components/message/style/css';
 
-import installIcon from '@/plugins/installIcon'; // icon 注册
-import { router } from '@/plugins/installRouter'; // 路由注册
+import installIcon from '@/plugins/installIcon'; // Register icons
+import { router } from '@/plugins/installRouter'; // Register router
 
 const app = createApp(App);
 // app.config.globalProperties.$showLoading = ref(false);
 // app.config.globalProperties.$ElLoading = ElLoading.service({
-//     text: '核心加载中...'
+//     text: 'Loading core...'
 // });
 
 const pinia = createPinia();

@@ -3,20 +3,20 @@ import { defineStore } from 'pinia';
 
 export const usePlayerState = defineStore('playerState', () => {
   const ingLoadingCount = ref(0);
-  // 画板信息
+  // Canvas information
   const canvasOptions = reactive({
     width: 0,
     height: 0
   });
-  // 要播放的总帧数
+  // Total frames to play
   const playerConfig = reactive({
     frameCount: 0,
     playerWidth: 1080 / 6,
     playerHeight: 1920 / 6
   });
   const existVideo = ref(false);
-  const playStartFrame = ref(0); // 当前播放帧
-  const playTargetTrackMap = ref(new Map()); // 当前播放的元素集合
+  const playStartFrame = ref(0); // Current playing frame
+  const playTargetTrackMap = ref(new Map()); // Currently playing elements collection
   const isPause = ref(true);
 
   return {

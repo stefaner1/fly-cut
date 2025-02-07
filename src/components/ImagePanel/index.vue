@@ -2,7 +2,7 @@
   <div class="p-4 flex-1 overflow-hidden flex flex-col">
     <div class="bg-zinc-200 h-10 flex items-center justify-center rounded text-sm text-gray-900 cursor-pointer" @click="onUpload">
       <i class="iconfont icon-shangchuan_line mr-2" />
-      本地图片
+      Local Image
     </div>
   </div>
 </template>
@@ -21,9 +21,9 @@
   const playStore = usePlayerState();
 
   async function onUpload() {
-    // 需要将获取图片文件转换为ImageTractItem
-    // 必须：图片的format、height、width、sourceFrame
-    // 非必须：cover信息（如果是gif图片）
+    // Need to convert image file to ImageTrackItem
+    // Required: image format, height, width, sourceFrame
+    // Optional: cover info (if it's a gif image)
     const files = await selectFile({ accept: 'image/*', multiple: false });
 
     const id = await getMD5(await files[0].arrayBuffer());
@@ -31,12 +31,12 @@
     const frames = await imageDecoder.decode({ id, stream: files[0].stream(), type: files[0].type });
 
     if (!frames) {
-      // 提示解析视频失败
-      ElMessage.error('解析图片失败');
+      // Alert image parsing failed
+      ElMessage.error('Image parsing failed');
       return;
     }
 
-    // 获取文件相关信息
+    // Get file related information
     const imageSource: ImageSource = {
       id,
       url: id,
@@ -46,8 +46,8 @@
       height: frames[0].codedHeight
     };
 
-    // 将文件写入到文件系统
-    // 写入原文件，还是写入解码后的文件？
+    // Write file to filesystem
+    // Write original file or decoded file?
     // write(id, files[0].stream());
 
     const imageTrack = new ImageTrack(imageSource, playStore.playStartFrame);

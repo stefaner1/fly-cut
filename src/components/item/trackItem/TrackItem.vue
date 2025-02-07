@@ -8,9 +8,9 @@
       :data-index="itemIndex"
       @click="setSelectTract"
   >
-    <!-- 操作手柄 -->
+    <!-- Control handles -->
     <TrackHandler :isActive="isActive" :lineIndex="lineIndex" :itemIndex="itemIndex" />
-    <!-- 容器 -->
+    <!-- Container -->
     <component
         :is="componentMap.get(trackItem.type)"
         :trackItem="trackItem"

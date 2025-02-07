@@ -2,7 +2,7 @@
   <div class="p-4 flex-1 overflow-hidden flex flex-col">
     <div class="bg-zinc-200 h-10 flex items-center justify-center rounded text-sm text-gray-900 cursor-pointer" @click="onUpload">
       <i class="iconfont icon-shangchuan_line mr-2" />
-      本地音频
+      Local Audio
     </div>
   </div>
 </template>
@@ -27,7 +27,7 @@
 
   async function onUpload() {
     /**
-     * TODO: 待优化，有些任务可以并发
+     * TODO: To be optimized, some tasks can be concurrent
      */
     const files = await selectFile({ accept: 'audio/*', multiple: false });
 
@@ -36,8 +36,8 @@
     const clip = await audioDecoder.decode({ id, stream: files[0].stream(), type: files[0].type });
 
     if (!clip) {
-      // 提示解析视频失败
-      ElMessage.error('解析音频失败');
+      // Alert audio parsing failed
+      ElMessage.error('Audio parsing failed');
       return;
     }
 

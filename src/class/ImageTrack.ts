@@ -13,11 +13,11 @@ export interface ImageSource {
   height: number
 }
 /**
- * 解析文件不能放在片段中：
- * 1. 文件解析是一个耗时操作，需要提前解析好，然后传递给片段
- * 2. 文件可能是网络资源，也可能是本地资源，在片段对象中要收束
- * 3. 不同片段可能共享同一个文件，解析一次即可
- * 4. 片段信息需要转换为文本进行存储（草稿）
+ * File parsing cannot be placed in segments:
+ * 1. File parsing is a time-consuming operation, needs to be parsed in advance and passed to segments
+ * 2. Files can be network resources or local resources, need to be encapsulated in segment objects
+ * 3. Different segments may share the same file, parse only once
+ * 4. Segment information needs to be converted to text for storage (draft)
  */
 export class ImageTrack implements BaseTractItem {
   id: string;
@@ -40,20 +40,20 @@ export class ImageTrack implements BaseTractItem {
     return this.width * this.scale / 100;
   }
   constructor(source: ImageSource, curFrame: number) {
-    // 设置ID
+    // Set ID
     this.id = uniqueId();
-    // 设置图片信息
+    // Set image information
     this.source = source;
-    // 获取文件名称
+    // Get file name
     this.name = source.name;
-    // 获取文件类型
+    // Get file type
     this.format = source.format;
-    // 设置轨道信息
+    // Set track information
     this.frameCount = 30 * 60;
     this.start = curFrame;
     this.end = this.start + this.frameCount;
 
-    // 设置绘制信息
+    // Set drawing information
     this.centerX = 0;
     this.centerY = 0;
     this.scale = 100;
@@ -67,7 +67,7 @@ export class ImageTrack implements BaseTractItem {
     return height / 2 - this.drawHeight / 2 + this.centerY;
   }
   draw(ctx: CanvasRenderingContext2D, { width, height }: { width: number, height: number }, frameIndex: number) {
-    const frame = Math.max(frameIndex - this.start, 0); // 默认展示首帧
+    const frame = Math.max(frameIndex - this.start, 0); // Display first frame by default
     return imageDecoder.getFrame(this.source.format, this.source.id, frame).then(vf => {
         if (vf) {
           ctx.drawImage(vf, 0, 0, this.source.width, this.source.height, this.getDrawX(width), this.getDrawY(height), this.drawWidth, this.drawHeight);
@@ -75,7 +75,7 @@ export class ImageTrack implements BaseTractItem {
     });
   }
   resize({ width, height }: { width: number, height: number }) {
-    // 视频、图片元素，在添加到画布中时，需要缩放为合适的尺寸，目标是能在画布中完整显示内容
+    // When adding video/image elements to canvas, scale them to fit appropriately to ensure content is fully visible
     let scale = 1;
     if (this.source.width > width) {
       scale = width / this.source.width;
@@ -86,7 +86,7 @@ export class ImageTrack implements BaseTractItem {
     this.width = this.source.width * scale;
     this.height = this.source.height * scale;
   }
-  // 生成合成对象
+  // Generate composite object
   async combine(playerSize: { width: number, height: number }, outputRatio: number) {
     const frames = await imageDecoder.decode({ id: this.source.id });
     if (!frames) {
@@ -94,7 +94,7 @@ export class ImageTrack implements BaseTractItem {
     }
     const clip = new ImgClip(frames);
     const spr = new OffscreenSprite(clip);
-    // TODO：需要支持裁剪
+    // TODO: Need to support cropping
     spr.time = { offset: this.start * UnitFrame2μs, duration: this.frameCount * UnitFrame2μs };
     spr.rect.x = this.getDrawX(playerSize.width) * outputRatio;
     spr.rect.y = this.getDrawY(playerSize.height) * outputRatio;

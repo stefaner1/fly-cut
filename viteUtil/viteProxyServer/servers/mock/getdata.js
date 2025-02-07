@@ -5,7 +5,7 @@ handler = (req, res) => {
   if(type === 'video') {
     data = [
       {
-        title: '用户上传',
+        title: 'User Uploads',
         type: 'video',
         items: [
           {
@@ -31,7 +31,7 @@ handler = (req, res) => {
         ]
       },
       {
-        title: '热门',
+        title: 'Popular',
         type: 'video',
         items: [
           {
@@ -47,7 +47,7 @@ handler = (req, res) => {
         ]
       },
       {
-        title: '搞笑片段',
+        title: 'Funny Clips',
         type: 'video',
         items: [
           {
@@ -66,48 +66,48 @@ handler = (req, res) => {
   }else if(type === 'audio') {
     data = [
       {
-        title: '抖音',
+        title: 'TikTok',
         type: 'audio',
         items: [
           {
             cover: '/image/audio/audio_0.png',
             time: 25000,
             format: 'mp3',
-            name: '测试音频1',
+            name: 'Test Audio 1',
             source: '/audio/audio_0.mp3'
           },
           {
             cover: '/image/audio/audio_1.png',
             time: 16000,
             format: 'mp3',
-            name: '测试音频2',
+            name: 'Test Audio 2',
             source: '/audio/audio_1.mp3'
           },
           {
             cover: '/image/audio/audio_2.png',
             time: 41000,
             format: 'mp3',
-            name: '测试音频3',
+            name: 'Test Audio 3',
             source: '/audio/audio_2.mp3'
           }
         ]
       },
       {
-        title: '卡点',
+        title: 'Beat Points',
         type: 'audio',
         items: [
           {
             cover: '/image/audio/audio_3.png',
             time: 14000,
             format: 'mp3',
-            name: '测试音频4',
+            name: 'Test Audio 4',
             source: '/audio/audio_3.mp3'
           },
           {
             cover: '/image/audio/audio_4.png',
             time: 25000,
             format: 'mp3',
-            name: '测试音频5',
+            name: 'Test Audio 5',
             source: '/audio/audio_4.mp3'
           }
         ]
@@ -116,56 +116,56 @@ handler = (req, res) => {
   }else if(type === 'text') {
     data = [
       {
-        title: '热门',
+        title: 'Popular',
         type: 'text',
         items: [
           {
-            name: '文字1',
+            name: 'Text 1',
             templateId: 0,
             cover: '/image/text/text_0.png'
           },
           {
-            name: '文字2',
+            name: 'Text 2',
             templateId: 0,
             cover: '/image/text/text_0.png'
           },
           {
-            name: '文字3',
+            name: 'Text 3',
             templateId: 0,
             cover: '/image/text/text_0.png'
           },
           {
-            name: '文字4',
+            name: 'Text 4',
             templateId: 0,
             cover: '/image/text/text_0.png'
           },
           {
-            name: '文字5',
+            name: 'Text 5',
             templateId: 0,
             cover: '/image/text/text_0.png'
           },
           {
-            name: '文字6',
+            name: 'Text 6',
             templateId: 1,
             cover: '/image/text/text_1.png'
           },
           {
-            name: '文字7',
+            name: 'Text 7',
             templateId: 1,
             cover: '/image/text/text_1.png'
           },
           {
-            name: '文字8',
+            name: 'Text 8',
             templateId: 1,
             cover: '/image/text/text_1.png'
           },
           {
-            name: '文字9',
+            name: 'Text 9',
             templateId: 1,
             cover: '/image/text/text_1.png'
           },
           {
-            name: '文字10',
+            name: 'Text 10',
             templateId: 1,
             cover: '/image/text/text_1.png'
           }
@@ -175,11 +175,11 @@ handler = (req, res) => {
   }else if(type === 'image') {
     data = [
       {
-        title: '热门',
+        title: 'Popular',
         type: 'image',
         items: [
           {
-            name: '贴图1',
+            name: 'Sticker 1',
             cover: '/image/image/image_0.png',
             source: '/image/image/image_0.gif',
             format: 'gif',
@@ -188,7 +188,7 @@ handler = (req, res) => {
             sourceFrame: 8,
           },
           {
-            name: '贴图2',
+            name: 'Sticker 2',
             cover: '/image/image/image_0.png',
             source: '/image/image/image_0.gif',
             format: 'gif',
@@ -197,7 +197,7 @@ handler = (req, res) => {
             sourceFrame: 8,
           },
           {
-            name: '贴图3',
+            name: 'Sticker 3',
             cover: '/image/image/image_0.png',
             source: '/image/image/image_0.gif',
             format: 'gif',
@@ -206,7 +206,7 @@ handler = (req, res) => {
             sourceFrame: 8,
           },
           {
-            name: '贴图4',
+            name: 'Sticker 4',
             cover: '/image/image/image_0.png',
             source: '/image/image/image_0.gif',
             format: 'gif',
@@ -215,7 +215,7 @@ handler = (req, res) => {
             sourceFrame: 8,
           },
           {
-            name: '贴图5',
+            name: 'Sticker 5',
             cover: '/image/image/image_0.png',
             source: '/image/image/image_0.gif',
             format: 'gif',
@@ -226,11 +226,11 @@ handler = (req, res) => {
         ]
       },
       {
-        title: '经典',
+        title: 'Classic',
         type: 'image',
         items: [
           {
-            name: '贴图6',
+            name: 'Sticker 6',
             cover: '/image/image/image_1.png',
             source: '/image/image/image_1.gif',
             format: 'gif',
@@ -239,7 +239,7 @@ handler = (req, res) => {
             sourceFrame: 6,
           },
           {
-            name: '贴图7',
+            name: 'Sticker 7',
             cover: '/image/image/image_1.png',
             source: '/image/image/image_1.gif',
             format: 'gif',
@@ -248,7 +248,7 @@ handler = (req, res) => {
             sourceFrame: 6,
           },
           {
-            name: '贴图8',
+            name: 'Sticker 8',
             cover: '/image/image/image_1.png',
             source: '/image/image/image_1.gif',
             format: 'gif',
@@ -257,7 +257,7 @@ handler = (req, res) => {
             sourceFrame: 6,
           },
           {
-            name: '贴图9',
+            name: 'Sticker 9',
             cover: '/image/image/image_1.png',
             source: '/image/image/image_1.gif',
             format: 'gif',
@@ -271,98 +271,98 @@ handler = (req, res) => {
   }else if(type === 'effect') {
     data = [
       {
-        title: '热门',
+        title: 'Popular',
         type: 'effect',
         items: [
           {
             cover: '/image/effect/effect_0.gif',
-            name: '特效',
+            name: 'Effect',
             templateId: 0
           },
           {
             cover: '/image/effect/effect_0.gif',
-            name: '特效',
+            name: 'Effect',
             templateId: 0
           },
           {
             cover: '/image/effect/effect_0.gif',
-            name: '特效',
+            name: 'Effect',
             templateId: 0
           },
           {
             cover: '/image/effect/effect_0.gif',
-            name: '特效',
+            name: 'Effect',
             templateId: 0
           },
           {
             cover: '/image/effect/effect_0.gif',
-            name: '特效',
+            name: 'Effect',
             templateId: 0
           },
           {
             cover: '/image/effect/effect_0.gif',
-            name: '特效',
+            name: 'Effect',
             templateId: 0
           },
           {
             cover: '/image/effect/effect_0.gif',
-            name: '特效',
+            name: 'Effect',
             templateId: 0
           },
           {
             cover: '/image/effect/effect_0.gif',
-            name: '特效',
+            name: 'Effect',
             templateId: 0
           },
           {
             cover: '/image/effect/effect_0.gif',
-            name: '特效',
+            name: 'Effect',
             templateId: 0
           },
           {
             cover: '/image/effect/effect_0.gif',
-            name: '特效',
+            name: 'Effect',
             templateId: 0
           },
           {
             cover: '/image/effect/effect_0.gif',
-            name: '特效',
+            name: 'Effect',
             templateId: 0
           },
           {
             cover: '/image/effect/effect_0.gif',
-            name: '特效',
+            name: 'Effect',
             templateId: 0
           }
         ]
       },
       {
-        title: '基础',
+        title: 'Basic',
         type: 'effect',
         items: [
           {
             cover: '/image/effect/effect_1.gif',
-            name: '特效',
+            name: 'Effect',
             templateId: 1
           },
           {
             cover: '/image/effect/effect_1.gif',
-            name: '特效',
+            name: 'Effect',
             templateId: 1
           },
           {
             cover: '/image/effect/effect_1.gif',
-            name: '特效',
+            name: 'Effect',
             templateId: 1
           },
           {
             cover: '/image/effect/effect_1.gif',
-            name: '特效',
+            name: 'Effect',
             templateId: 1
           },
           {
             cover: '/image/effect/effect_1.gif',
-            name: '特效',
+            name: 'Effect',
             templateId: 1
           }
         ]
@@ -371,89 +371,89 @@ handler = (req, res) => {
   }else if(type === 'transition') {
     data = [
       {
-        title: '热门',
+        title: 'Popular',
         type: 'transition',
         items: [
           {
             cover: '/image/transition/transition_0.gif',
-            name: '转场',
+            name: 'Transition',
             templateId: 0
           },
           {
             cover: '/image/transition/transition_0.gif',
-            name: '转场',
+            name: 'Transition',
             templateId: 0
           },
           {
             cover: '/image/transition/transition_0.gif',
-            name: '转场',
+            name: 'Transition',
             templateId: 0
           },
           {
             cover: '/image/transition/transition_0.gif',
-            name: '转场',
+            name: 'Transition',
             templateId: 0
           },
           {
             cover: '/image/transition/transition_0.gif',
-            name: '转场',
+            name: 'Transition',
             templateId: 0
           },
           {
             cover: '/image/transition/transition_0.gif',
-            name: '转场',
+            name: 'Transition',
             templateId: 0
           }
         ]
       },
       {
-        title: '叠化',
+        title: 'Dissolve',
         type: 'transition',
         items: [
           {
             cover: '/image/transition/transition_0.gif',
-            name: '转场',
+            name: 'Transition',
             templateId: 0
           },
           {
             cover: '/image/transition/transition_0.gif',
-            name: '转场',
+            name: 'Transition',
             templateId: 0
           },
           {
             cover: '/image/transition/transition_0.gif',
-            name: '转场',
+            name: 'Transition',
             templateId: 0
           },
           {
             cover: '/image/transition/transition_0.gif',
-            name: '转场',
+            name: 'Transition',
             templateId: 0
           }
         ]
       },
       {
-        title: '运镜',
+        title: 'Camera Movement',
         type: 'transition',
         items: [
           {
             cover: '/image/transition/transition_0.gif',
-            name: '转场',
+            name: 'Transition',
             templateId: 0
           },
           {
             cover: '/image/transition/transition_0.gif',
-            name: '转场',
+            name: 'Transition',
             templateId: 0
           },
           {
             cover: '/image/transition/transition_0.gif',
-            name: '转场',
+            name: 'Transition',
             templateId: 0
           },
           {
             cover: '/image/transition/transition_0.gif',
-            name: '转场',
+            name: 'Transition',
             templateId: 0
           }
         ]
@@ -462,57 +462,57 @@ handler = (req, res) => {
   }else if(type === 'filter') {
     data = [
       {
-        title: '精选',
+        title: 'Featured',
         type: 'filter',
         items: [
           {
             cover: '/image/filter/empty.png',
-            name: '滤镜',
+            name: 'Filter',
             templateId: 1
           },
           {
             cover: '/image/filter/empty.png',
-            name: '滤镜',
+            name: 'Filter',
             templateId: 2
           },
           {
             cover: '/image/filter/empty.png',
-            name: '滤镜',
+            name: 'Filter',
             templateId: 3
           },
           {
             cover: '/image/filter/empty.png',
-            name: '亮肤',
+            name: 'Bright Skin',
             templateId: 4
           },
           {
             cover: '/image/filter/empty.png',
-            name: '滤镜',
+            name: 'Filter',
             templateId: 5
           },
           {
             cover: '/image/filter/empty.png',
-            name: '酷白',
+            name: 'Cool White',
             templateId: 6
           },
           {
             cover: '/image/filter/empty.png',
-            name: '滤镜',
+            name: 'Filter',
             templateId: 7
           },
           {
             cover: '/image/filter/empty.png',
-            name: '滤镜',
+            name: 'Filter',
             templateId: 8
           },
           {
             cover: '/image/filter/empty.png',
-            name: '滤镜',
+            name: 'Filter',
             templateId: 9
           },
           {
             cover: '/image/filter/empty.png',
-            name: '滤镜',
+            name: 'Filter',
             templateId: 10
           }
         ]

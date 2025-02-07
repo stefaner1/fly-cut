@@ -19,15 +19,15 @@ import SparkMD5 from 'spark-md5';
 // interface BaseTrack {
 //   id: string
 //   name: string
-//   // 总帧数
+//   // Total number of frames
 //   frameCount: number
-//   // 开始帧数
+//   // Start frame
 //   start: number
-//   // 结束帧数
+//   // End frame
 //   end: number
 //   offsetL: number
 //   offsetR: number
-//   // 文件格式
+//   // File format
 //   format: string
 // }
 
@@ -37,9 +37,9 @@ export interface BaseTractItem {
   id: string,
   type: TrackType,
   name: string,
-  start: number, // 在轨道上的起始位置，单位为帧
-  end: number, // 在轨道上的结束位置
-  frameCount: number, // 总帧数
+  start: number, // Starting position on track, unit is frames
+  end: number, // Ending position on track
+  frameCount: number, // Total number of frames
 }
 
 export async function getMD5(arrayBuffer: ArrayBuffer) {
@@ -49,10 +49,10 @@ export async function getMD5(arrayBuffer: ArrayBuffer) {
   return hashHex;
 }
 
-// 文本、音频、视频、图片
+// Text, audio, video, image
 /**
- * 针对网络资源，需要服务端提供文件信息：
- * id, 资源地址、文件名、文件类型、文件尺寸（视频、图片）、文件时长（视频、音频）
- * 本地可以获取这些信息，但是服务端提供从流程上来说更合理，拿到这些信息，就可以马上渲染时间轴了
+ * For network resources, server needs to provide file information:
+ * id, resource URL, filename, file type, file dimensions (video, image), file duration (video, audio)
+ * While this information can be obtained locally, it's more logical for the server to provide it,
+ * as once we have this information, we can immediately render the timeline
  */
-

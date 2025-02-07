@@ -27,7 +27,7 @@
         <template v-if="showTrackList.length === 0">
           <div class="flex justify-center items-center h-24 m-auto w-2/3 dark:bg-gray-500 bg-gray-200  rounded-md text-sm border-dashed border-2 dark:border-gray-500 border-gray-200 hover:dark:border-blue-300 hover:border-blue-400">
             <VideoIcon class="text-xl mr-4" />
-            将素材拖拽到这里，开始编辑你的大作吧~
+            Drag and drop materials here to start editing your masterpiece~
           </div>
         </template>
         <div
@@ -82,26 +82,26 @@
   const trackList = ref();
   const trackListContainer = ref();
   const offsetLine = {
-    left: 10, // 容器 margin, 为了显示拖拽手柄
+    left: 10, // Container margin, for displaying drag handle
     right: 200
   };
-  const startX = ref(0 - offsetLine.left); // 与容器padding对齐
-  const startY = ref(0); // 左侧icons对齐
+  const startX = ref(0 - offsetLine.left); // Align with container padding
+  const startY = ref(0); // Align with left icons
   const trackScale = computed(() => store.trackScale);
   const trackStyle = computed(() => {
     return {
       width: getGridPixel(trackScale.value, store.frameCount) + offsetLine.right
     };
   });
-  const defaultFps = ref(30); // 帧率
-  const dropLineIndex = ref(-1); // 目标行
-  const dropItemLeft = ref(0); // 目标left值
-  const insertBefore = ref(true); // 之前插入还是之后插入
+  const defaultFps = ref(30); // Frame rate
+  const dropLineIndex = ref(-1); // Target line
+  const dropItemLeft = ref(0); // Target left value
+  const insertBefore = ref(true); // Insert before or after
   const isVaDragElement = computed(() => {
     return ['video', 'audio'].includes(store.dragData.dragType);
-  }); // 是否是音视频节点
+  }); // Whether it's a video/audio node
   const dragPoint = computed(() => store.dragData.dragPoint);
-  let mainIndex = ref(0); // main 行下标
+  let mainIndex = ref(0); // Main line index
 
   const showTrackList = computed(() => {
     return store.trackList.map((line, lineIndex) => {
@@ -187,7 +187,7 @@
   }
 
   function onMouseDown(event: MouseEvent) {
-    // 获取拖拽元素
+    // Get drag element
     dragElement = (event.target as HTMLElement).closest('.trackItem') as HTMLElement;
     if (!dragElement) {
       return;
@@ -198,16 +198,16 @@
 
     const lineIndex = Number(dragElement.dataset.line);
     const index = Number(dragElement.dataset.index);
-    // 获取当前鼠标位置
+    // Get current mouse position
     store.dragData.dragPoint.x = event.pageX;
     store.dragData.dragPoint.y = event.pageY;
-    // 设置拖拽信息
+    // Set drag information
     store.dragData.dataInfo = store.trackList[lineIndex].list[index];
     store.dragData.dragType = dragElement.dataset.type;
-    // 设置移动轨道信息
+    // Set moving track information
     store.moveTrackData.lineIndex = lineIndex;
     store.moveTrackData.itemIndex = index;
-    // 重置当前选中的轨道
+    // Reset current selected track
     store.selectTrackItem.line = -1;
     store.selectTrackItem.index = 0;
     const dragItem = store.trackList[lineIndex].list[index];
@@ -217,7 +217,7 @@
       left: getGridPixel(store.trackScale, dragItem.start),
       right: getGridPixel(store.trackScale, dragItem.end)
     };
-    // 获取非当前位置的trackItem元素的left、right值
+    // Get left/right values of trackItem elements not at current position
     otherCoords = [];
     for (let i = 0; i < store.trackList.length; i++) {
       for (let j = 0; j < store.trackList[i].list.length; j++) {
@@ -233,19 +233,17 @@
       }
     }
   }
-  // const moveX = ref(0);
-  // const moveY = ref(0);
 
   function isOverlap(dragItem, line, { start, end }: { start: number, end: number }) {
     if (dragItem.type !== line.type) {
       return { overlap: true, index: 0 };
     }
-    // 插入的位置在trackLine中
+    // Insert position is in trackLine
     const nodes = line.list.filter(item => item.id !== dragItem.id);
     if (nodes.length === 0) {
       return { overlap: false, index: 0 };
     }
-    // 处理边界问题
+    // Handle boundary cases
     if (nodes[0].start >= end) {
       return { overlap: false, index: 0 };
     }
@@ -259,7 +257,7 @@
         return { overlap: false, index: i + 1 };
       }
     }
-    // 当重叠时，创建新行，所以插入位置为0
+    // When overlapping, create new line, so insert position is 0
     return { overlap: true, index: 0 };
   }
 
@@ -276,34 +274,34 @@
 
     const elems = Array.from(document.querySelectorAll('.trackLine')) as HTMLElement[];
 
-    // 处理边界情况
-    // 1. center在第一个元素之前
+    // Handle boundary cases
+    // 1. center is before first element
     if (elems[0].offsetTop > center) {
       return { isNewLine: true, insertIndex: 0 };
     }
 
     for (let i = 0; i < elems.length; i++) {
       const elem = elems[i];
-      // center在一个元素中
+      // center is within an element
       if (elem.offsetTop <= center && (elem.offsetTop + elem.offsetHeight) >= center) {
         return { isNewLine: false, insertIndex: i, elem };
       }
       if (i + 1 !== elems.length) {
         const elemNext = elems[i + 1];
-        // center在两个元素之间
+        // center is between two elements
         if ((elem.offsetTop + elem.offsetHeight) <= center && elemNext.offsetTop >= center) {
           return { isNewLine: true, insertIndex: i + 1 };
         }
       }
     }
-    // 2. center在最后一个元素之后
+    // 2. center is after last element
     return { isNewLine: true, insertIndex: elems.length };
   }
 
   let fixPosition = { left: 0, right: 0 };
 
-  // 获取插入信息
-  // insertIndex插入的位置，isNewLine是否插入新行, 插入的位置left、right值，插入行的位置，itemIndex
+  // Get insert information
+  // insertIndex: insert position, isNewLine: whether to insert new line, left/right: insert position values, line position, itemIndex
   function getInsertInfo(): InsertInfo {
     let { isNewLine, insertIndex, elem } = getInsertLineInfo();
 
@@ -323,10 +321,10 @@
     const line = store.trackList[insertIndex];
 
     const { overlap, index: itemIndex } = isOverlap(dragItem, line, { start, end });
-    // 如果重叠，根据位置判断是插入当前行之前还是之后
+    // If overlapping, determine whether to insert before or after current line based on position
     if (overlap) {
       isNewLine = true;
-      // 获取elem的中心点
+      // Get element center point
       const center = elem.offsetLeft + elem.offsetWidth / 2;
       if (center < dragElement.offsetTop + dragElement.offsetParent.offsetTop + dragElement.offsetHeight / 2) {
         insertIndex -= 1;
@@ -335,10 +333,10 @@
     return { insertIndex, itemIndex, left, right, isNewLine, start, end };
   }
 
-  // 获取吸附辅助线
+  // Get snap guide lines
   function getFixLine(x: number, distance = 10) {
-    // otherCoords、游标位置
-    // 先获取与拖拽元素left、right，距离小于distance的元素
+    // otherCoords, cursor position
+    // First get elements with left/right distance less than distance from drag element
     const result = [];
     otherCoords.forEach(coord => {
       if (Math.abs(coord.left - x) <= distance) {
@@ -348,7 +346,7 @@
         result.push({ position: coord.right, frame: coord.end });
       }
     });
-    // 获取与游标位置距离小于distance的元素
+    // Get elements with distance less than distance from cursor position
     const trackPlayPointX = getGridPixel(store.trackScale, playerStore.playStartFrame);
     if (Math.abs(trackPlayPointX - x) <= distance) {
       result.push({ position: trackPlayPointX, frame: playerStore.playStartFrame });
@@ -357,14 +355,14 @@
     return result;
   }
 
-  // 设置吸附
+  // Set snapping
   function adsorption({ left, right }: { left: number, right: number }, lines: { position: number, frame: number }[][]) {
     fixPosition = { left: 0, right: 0, start: 0, end: 0 };
     if (lines[0].length === 0 && lines[1].length === 0) {
       return;
     }
-    // 吸附其实就是移动拖拽元素的位置
-    // 找到最近的线，计算移动的距离
+    // Snapping is essentially moving the drag element position
+    // Find closest line, calculate movement distance
     const minLeftLine = lines[0].reduce((r, item) => {
       return Math.abs(item.position - left) < Math.abs(r.position - left) ? item : r;
     }, { position: Number.MAX_SAFE_INTEGER, frame: 0 });
@@ -374,12 +372,12 @@
     }, { position: Number.MAX_SAFE_INTEGER, frame: 0 });
 
     if (Math.abs(minLeftLine.position - left) < Math.abs(minRightLine.position - right)) {
-      // 左对齐
+      // Left align
       fixPosition.left = minLeftLine.position;
       fixPosition.start = minLeftLine.frame;
       store.dragData.moveX = minLeftLine.position - curCoord.left;
     } else {
-      // 右对齐
+      // Right align
       fixPosition.right = minRightLine.position;
       fixPosition.end = minRightLine.frame;
       store.dragData.moveX = minRightLine.position - curCoord.right;
@@ -396,7 +394,7 @@
 
       store.dragData.fixLines = [getFixLine(left), getFixLine(right)];
 
-      // 设置吸附
+      // Set snapping
       adsorption({ left, right }, store.dragData.fixLines);
     }
   }
@@ -404,11 +402,11 @@
   function insert(insertInfo: InsertInfo) {
     let dragInfo = store.dragData.dataInfo;
     const startFrame = Math.max(fixPosition.right !== 0 ? getSelectFrame(insertInfo.right, store.trackScale, 30) - (dragInfo.end - dragInfo.start) : getSelectFrame(insertInfo.left, store.trackScale, 30), 0);
-    // 移动元素到新为止
+    // Move element to new position
     dragInfo.end = startFrame + (dragInfo.end - dragInfo.start);
     dragInfo.start = startFrame;
     const newTrackItem = dragInfo;
-    // 先根据id将原本的trackItem设置为null
+    // First set original trackItem to null by id
     let deleteLineIndex = 0;
     let deleteItemIndex = 0;
     store.trackList.forEach((lineItem, lineIndex) => {
@@ -421,13 +419,13 @@
     });
     store.trackList[deleteLineIndex].list.splice(deleteItemIndex, 1);
     if (insertInfo.isNewLine) {
-      // 插入新行
+      // Insert new line
       store.trackList.splice(insertInfo.insertIndex, 0, { type: newTrackItem.type, list: [newTrackItem] });
     } else {
-      // 插入当前行
+      // Insert into current line
       store.trackList[insertInfo.insertIndex].list.splice(insertInfo.itemIndex, 0, newTrackItem);
     }
-    // 删除store.trackList中，list为空的元素
+    // Delete empty lists from store.trackList
     const deleteIndex = store.trackList.findIndex(lineItem => lineItem.list.length === 0);
     if (deleteIndex !== -1) {
       store.trackList.splice(deleteIndex, 1);
@@ -444,18 +442,15 @@
 
       store.dragData.fixLines = [getFixLine(left), getFixLine(right)];
 
-      // 设置吸附
+      // Set snapping
       adsorption({ left, right }, store.dragData.fixLines);
 
       const info = getInsertInfo(event.currentTarget as HTMLElement);
       insert(info);
       dragElement = null;
-      // const info = getInsertInfo(event.currentTarget as HTMLElement);
-      // insert(info);
-      // dragElement = null;
     }
     store.dragData.fixLines = [];
-    // 重置移动轨道信息
+    // Reset moving track information
     store.moveTrackData.lineIndex = -1;
     store.moveTrackData.itemIndex = -1;
     store.dragData.moveX = 0;

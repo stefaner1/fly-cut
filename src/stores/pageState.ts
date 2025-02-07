@@ -2,8 +2,8 @@ import { ref, watchEffect } from 'vue';
 import { defineStore } from 'pinia';
 
 export const usePageState = defineStore('pageState', () => {
-  const pageTitle = ref('视频编辑（CcClip）');
-  // 暗色模式
+  const pageTitle = ref('Video Editor (CcClip)');
+  // Dark mode
   const isDark = ref(Boolean(localStorage.theme) || true);
   console.log('🚀 ~ usePageState ~ isDark:', isDark);
   const isLoading = ref(localStorage.loadingPage === '1');
@@ -16,9 +16,9 @@ export const usePageState = defineStore('pageState', () => {
     document.documentElement.classList[isDark.value ? 'add' : 'remove']('dark');
   });
 
-  // 属性宽度
+  // Attribute width
   const attrWidth = ref(parseInt(localStorage.attrW || '320'));
-  // 轨道高度
+  // Track height
   const trackHeight = ref(parseInt(localStorage.trackH || '380'));
   watchEffect(() => {
     localStorage.attrW = attrWidth.value;

@@ -1,7 +1,7 @@
 import FormItem from '@/components/item/formItem/FormItem.vue';
 /**
- * 提供默认配置，可以将一些系统配置放到baseOptions中，而不是直接在配置文件中展开书写
- * 这么做的目的是简化属性配置文件，只保留关键信息
+ * Provide default configuration, system configurations can be placed in baseOptions instead of writing them directly in configuration files
+ * The purpose is to simplify property configuration files, keeping only key information
  * */
 const BaseOptionConfig: Record<string, any> = {
     Collapse: {
@@ -76,7 +76,7 @@ const BaseOptionConfig: Record<string, any> = {
     }
 };
 
-// 格式化属性表单配置
+// Format property form configuration
 export function mappingFormItem(componentName: string, mergeOptions: Record<string, any>) {
     return {
         ...(BaseOptionConfig[componentName] || {}),

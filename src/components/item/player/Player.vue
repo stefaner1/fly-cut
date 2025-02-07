@@ -24,7 +24,7 @@
   import { CanvasPlayer } from '@/components/item/player/canvasDraw';
   import { storeToRefs } from 'pinia';
   const props = defineProps({
-    containerSize: { // 容器大小
+    containerSize: { // Container size
       type: Object,
       default() {
         return {
@@ -46,8 +46,8 @@
 
   const scale = computed(() => {
     let { width, height } = props.containerSize;
-    height -= 96; // 上下功能栏
-    width -= 16; // 左右功能栏
+    height -= 96; // Top and bottom function bars
+    width -= 16; // Left and right function bars
     return Math.min(width / playerWidth.value, height / playerHeight.value);
   });
 </script>

@@ -13,7 +13,7 @@ class="playPoint block border-1 border-gray-600 bg-gray-600 h-3 w-2.5 dark:borde
 
 <script setup lang="ts">
   import { getGridPixel, getSelectFrame } from '@/utils/canvasUtil';
-  import { computed } from 'vue';
+  import { computed, ref } from 'vue';
   import { useTrackState } from '@/stores/trackState';
   import { usePlayerState } from '@/stores/playerState';
   const offsetLine = {
@@ -42,9 +42,9 @@ class="playPoint block border-1 border-gray-600 bg-gray-600 h-3 w-2.5 dark:borde
     // event.stopPropagation();
     // event.preventDefault();
     if (isDragging.value) {
-      // 获取相对于#timeline的偏移量
+      // Get offset relative to #timeline
       const rect = document.getElementById('track-container').getBoundingClientRect();
-      // 默认fps为30
+      // Default fps is 30
       const frame = getSelectFrame(event.pageX - offsetLine.left - rect.left, trackStore.trackScale, 30);
 
       const playFrame = frame - 1;

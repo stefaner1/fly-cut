@@ -6,17 +6,17 @@ export const useSound = () => {
   const playingUrl = ref('');
 
   if (!audio) {
-    // 创建一个新的 Audio 对象
+    // Create a new Audio object
     audio = new Audio();
   }
 
   audio.onended = () => {
-    console.log('播放结束');
+    console.log('Playback ended');
     playingUrl.value = '';
   };
 
   audio.addEventListener('pause', () => {
-    console.log('播放暂停');
+    console.log('Playback paused');
     playingUrl.value = '';
   });
 
@@ -25,7 +25,7 @@ export const useSound = () => {
       audio?.pause();
       setTimeout(() => {
         playingUrl.value = src;
-        // 设置音频文件的 URL
+ // Set the audio file URL
         audio.src = src;
         audio?.play();
       }, 100);

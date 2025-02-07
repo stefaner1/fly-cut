@@ -6,7 +6,7 @@ class="top-0 left-0 bottom-0" direction="vertical" :limitSize="limitSize" disabl
 />
     <div v-show="selectTrackOptionsConfig.length === 0" class="w-full h-full flex flex-col justify-center items-center">
       <AttrEmptyIcon />
-      <span class="text-sm">点击轨道进行编辑</span>
+      <span class="text-sm">Click track to edit</span>
     </div>
     <div class="absolute top-0 left-3 right-2 bottom-0 overflow-hidden">
       <AttrContainer :attrData="selectTrackOptionsConfig" :trackId="trackStore.selectResource?.id" />
@@ -24,7 +24,7 @@ class="top-0 left-0 bottom-0" direction="vertical" :limitSize="limitSize" disabl
   const trackStore = useTrackState();
 
   const TrackOptionsConfig: Record<string, any> = {};
-  // 将data下的配置导入
+  // Import configurations from data directory
   const attributeFiles = import.meta.glob('@/data/options/*.ts', { eager: true });
   for (const path in attributeFiles) {
     const name = path.match(/(?<=\/)(\w+)(?=\.ts)/) || [];

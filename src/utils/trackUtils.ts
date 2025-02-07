@@ -4,7 +4,7 @@ import { VideoTrack } from '@/class/VideoTrack';
 import type { TrackLineItem } from '@/stores/trackState';
 
 /**
- * 检查 checkItem 是否与当前 trackList 存在帧重叠部分
+ * Check if checkItem has frame overlap with current trackList
  * */
 export function checkTrackItemOverlap(trackList: BaseTractItem[], checkItem: BaseTractItem) {
     const { start: insertStart, end: insertEnd } = checkItem;
@@ -13,9 +13,9 @@ export function checkTrackItemOverlap(trackList: BaseTractItem[], checkItem: Bas
     const hasOverlap = trackList.filter(item => item.id !== checkItem.id).some((trackItem, index) => {
         const { start, end } = trackItem;
         /**
-         * 判断是否重叠：
-         * 1. 落点在节点内部，重叠:start < insertStart < end || start < insertEnd < end
-         * 2. 落点在节点外，但是落点在两边，重叠:start >= insertStart && end <= insertEnd
+         * Determine overlap:
+         * 1. Drop point inside node, overlap: start < insertStart < end || start < insertEnd < end
+         * 2. Drop point outside node, but drop point on both sides, overlap: start >= insertStart && end <= insertEnd
          */
         if (
             (start < insertStart && insertStart < end) || (start < insertEnd && insertEnd < end) || (start >= insertStart && end <= insertEnd)

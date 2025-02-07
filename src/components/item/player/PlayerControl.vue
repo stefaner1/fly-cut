@@ -35,7 +35,7 @@
   });
   let playTimer = ref();
   const timeStamp = 1000 / 30;
-  // 视频暂停
+  // Pause video
   const pauseVideo = () => {
     if (props.disable) return;
     store.isPause = true;
@@ -60,7 +60,7 @@
       }
     }, timeStamp);
   }
-  // 在一些操作时，需要暂停播放
+  // Pause playback during certain operations
   watch(() => store.isPause, () => {
     if (store.isPause) {
       pauseVideo();
@@ -68,7 +68,7 @@
   });
   watch(() => store.playStartFrame, () => {
     if (!store.isPause) {
-      // 播放声音，查询当前帧的数据
+      // Play audio, query current frame data
       const trackItemList = getCurrentTrackItemList(trackStore.trackList, store.playStartFrame, isOfCanPlayType);
       trackItemList.forEach(item => {
         item?.play(store.playStartFrame);

@@ -1,6 +1,6 @@
 <template>
   <div class="flex-1 overflow-hidden relative" ref="playerContent" @click="cancelSelect">
-    <span class="pl-2 inline-block w-full h-10 mb-2 leading-10 border-b dark:border-darker border-gray-300">播放器</span>
+    <span class="pl-2 inline-block w-full h-10 mb-2 leading-10 border-b dark:border-darker border-gray-300">Player</span>
     <Player :containerSize="containerSize" />
   </div>
 </template>
@@ -24,7 +24,7 @@
     trackStore.selectTrackItem.line = -1;
     trackStore.selectTrackItem.index = -1;
   }
-  // 更新画布尺寸
+  // Update canvas size
   function updateContainerSize() {
     if (!playerContent.value) return;
     let { width: maxW, height: maxH } = playerContent.value.getBoundingClientRect();

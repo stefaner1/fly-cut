@@ -8,7 +8,7 @@ import { UnitFrame2μs } from '@/data/trackConfig';
 
 async function writeFile(id: string, stream?: ReadableStream<Uint8Array>) {
   if (!stream) {
-    // 没有数据流，尝试从opfs中获取
+    // No data stream, try to get from OPFS
     stream = await file(id).stream();
 
     if (!stream) {
@@ -18,14 +18,14 @@ async function writeFile(id: string, stream?: ReadableStream<Uint8Array>) {
 
   const start = performance.now()
 
-  // 如果opfs中没有数据则存储
+  // If data doesn't exist in OPFS, store it
   if (!(await file(id).exists())) {
     await write(id, stream);
-    console.log('opfs存储文件耗时', performance.now() - start, 'ms');
+    console.log('OPFS file storage time:', performance.now() - start, 'ms');
 
     stream = await file(id).stream();
 
-    console.log('opfs读取文件耗时', performance.now() - start, 'ms');
+    console.log('OPFS file read time:', performance.now() - start, 'ms');
   }
 
   return stream;
@@ -76,8 +76,8 @@ class VideoDecoder {
       clip = await this.decode({ url })
     }
 
-    // tick根据时间获取帧，可能存在这一时间帧为空的情况，修改为在范围内寻找帧
-    // 前几帧可能为空，所以限定最小时间为5/30秒
+    // tick gets frames based on time, but the frame might be empty at that time, modified to find frame within range
+    // First few frames might be empty, so minimum time is set to 5/30 seconds
     let time = Math.max(((frameIndex - 1) / baseFps * 1e6), 5 / 30 * 1e6) ;
     let video : VideoFrame | undefined;
     const frame = (await (clip as MP4Clip).tick(time));
@@ -101,18 +101,18 @@ class ImageDecoder {
       throw new Error("type is not ready");
     }
 
-    // 接收的数据可能是远程数据（URL），也可能是本地数据（file）
-    // 如果是远程数据，可以直接使用URL作为source，
-    // 如果是本地数据，可以使用FileReader读取数据，然后使用URL.createObjectURL创建URL作为source，但是这样缓存数据没法还原为File对象
-    // 要解决这个问题，可以引入https://hughfenghen.github.io/posts/2024/03/14/web-storage-and-opfs/
-    // 但是这样会增加复杂度，所以暂时不考虑，
-    // TODO: 使用OPFS解决本地数据问题
+    // Received data could be remote (URL) or local (file)
+    // For remote data, URL can be used directly as source
+    // For local data, FileReader can read data and URL.createObjectURL creates URL as source, but cached data can't be restored as File object
+    // To solve this, we could use https://hughfenghen.github.io/posts/2024/03/14/web-storage-and-opfs/
+    // But this increases complexity, so not considering it for now
+    // TODO: Use OPFS to solve local data issue
     const frames = await decodeImg(
       stream,
       type,
     );
 
-    // 存储解析后的帧
+    // Store decoded frames
     this.#decoderMap.set(id, frames);
 
     return frames;
@@ -144,8 +144,8 @@ class AudioDecoder {
     const clip = new AudioClip(stream);
 
     if (!clip) {
-      // 提示解析视频失败
-      throw new Error("解析视频失败");
+      // Video parsing failed
+      throw new Error("Video parsing failed");
     }
 
     await clip.ready;
@@ -161,7 +161,7 @@ export const splitClip = async (source: IClip, { offsetL, offsetR, frameCount } 
     return source
   }
   const start = offsetL * UnitFrame2μs
-  // 使用start裁剪视频
+  // Use start to clip video
   const clip = offsetL === 0 ? source : (await source.split(start))[1];
   const end = (frameCount - offsetR - offsetL) * UnitFrame2μs;
   return offsetR === 0 ? clip : (await clip.split(end))[0];

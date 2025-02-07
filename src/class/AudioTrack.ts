@@ -24,21 +24,21 @@ export class AudioTrack implements BaseTractItem {
   offsetL: number;
   offsetR: number;
   constructor(source: AudioSource, curFrame: number) {
-    // 设置ID
+    // Set ID
     this.id = uniqueId();
-    // 设置音频信息
+    // Set audio information
     this.source = source;
-    // 获取文件名称
+    // Get file name
     this.name = source.name;
-    // 获取文件类型
+    // Get file type
     this.format = source.format;
 
-    // 获取音频时长，转换为frameCount
+    // Get audio duration, convert to frameCount
     this.frameCount = source.duration * 30;
     this.start = curFrame;
     this.end = this.start + this.frameCount;
 
-    // 设置裁剪信息
+    // Set cropping information
     this.offsetL = 0;
     this.offsetR = 0;
   }
@@ -57,7 +57,7 @@ export class AudioTrack implements BaseTractItem {
       this.audio.pause();
     }
   }
-  // 生成合成对象
+  // Generate composite object
   async combine() {
     const audio = await audioDecoder.decode({ id: this.source.id });
     const clip = await splitClip(audio, { offsetL: this.offsetL, offsetR: this.offsetR, frameCount: this.frameCount });
@@ -65,7 +65,7 @@ export class AudioTrack implements BaseTractItem {
       throw new Error('clip is not ready');
     }
     const spr = new OffscreenSprite(clip);
-    // TODO：需要支持裁剪
+    // TODO: Need to support cropping
     spr.time = { offset: this.start * UnitFrame2μs, duration: (this.end - this.start) * UnitFrame2μs };
 
     return spr;

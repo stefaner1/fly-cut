@@ -37,27 +37,27 @@ export class VideoTrack implements BaseTractItem {
     return this.width * this.scale / 100;
   }
   constructor(source: VideoSource, curFrame: number) {
-    // 设置ID
+    // Set ID
     this.id = uniqueId();
-    // 设置视频信息
+    // Set video information
     this.source = source;
-    // 获取文件名称
+    // Get file name
     this.name = source.name;
-    // 获取文件类型
+    // Get file type
     this.format = source.format;
-    // 设置轨道信息
+    // Set track information
     this.frameCount = source.duration * 30;
     this.start = curFrame;
     this.end = this.start + this.frameCount;
 
-    // 设置绘制信息
+    // Set drawing information
     this.centerX = 0;
     this.centerY = 0;
     this.scale = 100;
     this.height = source.height;
     this.width = source.width;
 
-    // 设置裁剪信息
+    // Set cropping information
     this.offsetL = 0;
     this.offsetR = 0;
   }
@@ -68,23 +68,23 @@ export class VideoTrack implements BaseTractItem {
     return height / 2 - this.drawHeight / 2 + this.centerY;
   }
   /**
-   * 渲染需要优化
-   * TODO: 不需要没一次都去解码
-   * TODO: 优化画布渲染
+   * Rendering needs optimization
+   * TODO: Don't need to decode every time
+   * TODO: Optimize canvas rendering
    */
   draw(ctx: CanvasRenderingContext2D, { width, height }: { width: number, height: number }, frameIndex: number) {
-    const frame = Math.max(frameIndex - this.start + this.offsetL, 1); // 默认展示首帧
+    const frame = Math.max(frameIndex - this.start + this.offsetL, 1); // Display first frame by default
     const start = performance.now();
     return videoDecoder.getFrame(this.source.id, frame).then(async vf => {
       if (vf) {
-        console.log('渲染耗时', performance.now() - start, 'ms');
+        console.log('Render time:', performance.now() - start, 'ms');
         ctx.drawImage(vf, 0, 0, this.source.width, this.source.height, this.getDrawX(width), this.getDrawY(height), this.drawWidth, this.drawHeight);
         vf?.close();
       }
     });
   }
   resize({ width, height }: { width: number, height: number }) {
-    // 视频、图片元素，在添加到画布中时，需要缩放为合适的尺寸，目标是能在画布中完整显示内容
+    // When adding video/image elements to canvas, scale them to fit appropriately to ensure content is fully visible
     let scale = 1;
     if (this.source.width > width) {
       scale = width / this.source.width;
@@ -111,7 +111,7 @@ export class VideoTrack implements BaseTractItem {
       this.audio.pause();
     }
   }
-  // 生成合成对象
+  // Generate composite object
   async combine(playerSize: { width: number, height: number }, outputRatio: number) {
     const video = await videoDecoder.decode({ id: this.source.id });
     const clip = await splitClip(video, { offsetL: this.offsetL, offsetR: this.offsetR, frameCount: this.frameCount });
@@ -119,7 +119,7 @@ export class VideoTrack implements BaseTractItem {
       throw new Error('clip is not ready');
     }
     const spr = new OffscreenSprite(clip);
-    // TODO：需要支持裁剪
+    // TODO: Need to support cropping
     spr.time = { offset: this.start * UnitFrame2μs, duration: (this.end - this.start) * UnitFrame2μs };
     spr.rect.x = this.getDrawX(playerSize.width) * outputRatio;
     spr.rect.y = this.getDrawY(playerSize.height) * outputRatio;
@@ -130,8 +130,8 @@ export class VideoTrack implements BaseTractItem {
   }
   split(cutFrame: number) {
     this.end = cutFrame;
-    this.offsetR = this.frameCount + this.start - cutFrame; // 根据cutFrame对视频进行分割
-    // 根据cutFrame对视频进行分割
+    this.offsetR = this.frameCount + this.start - cutFrame; // Split video based on cutFrame
+    // Split video based on cutFrame
     const copy = new VideoTrack(this.source, cutFrame);
 
     copy.offsetL = cutFrame - this.start;

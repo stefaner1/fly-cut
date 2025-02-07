@@ -15,24 +15,24 @@
   import type { UserConfig, CanvasConfig } from '@/utils/canvasUtil';
   import { ref, computed, onMounted, nextTick, watch, reactive, toRefs } from 'vue';
   const props = defineProps({
-    start: { // 开始坐标
+    start: { // Start coordinate
       type: Number,
       default: 0
     },
-    step: { // 步进，与视频fps同步
+    step: { // Step increment, syncs with video fps
       type: Number,
       default: 30
     },
-    scale: { // 时间轴缩放比例
+    scale: { // Timeline zoom ratio
       type: Number,
       default: 0
     },
-    focusPosition: { // 选中元素时在时间轴中高亮显示
+    focusPosition: { // Highlight in timeline when element is selected
       type: Object,
       default() {
         return {
-          start: 0, // 起始帧数
-          end: 0 // 结束帧数
+          start: 0, // Start frame number
+          end: 0 // End frame number
         };
       }
     }
@@ -43,27 +43,27 @@
     }
   });
   /**
-   * 初始化 Canvas
+   * Initialize Canvas
    * */
   const canvasContainer = ref();
   const timeLine = ref();
   let canvasContext = {} as CanvasRenderingContext2D;
   const { isDark, hideSubMenu } = toRefs(usePageState());
   const canvasConfigs = computed(() => ({
-    bgColor: isDark.value ? '#374151' : '#E5E7EB', // 背景颜色
-    ratio: window.devicePixelRatio || 1, // 设备像素比
-    textSize: 12, // 字号
-    textScale: 0.83, // 支持更小号字： 10 / 12
-    lineWidth: 1, // 线宽
+    bgColor: isDark.value ? '#374151' : '#E5E7EB', // Background color
+    ratio: window.devicePixelRatio || 1, // Device pixel ratio
+    textSize: 12, // Font size
+    textScale: 0.83, // Support smaller font: 10 / 12
+    lineWidth: 1, // Line width
     // eslint-disable-next-line
-    textBaseline: 'middle' as 'middle', // 文字对齐基线 (ts 中定义的textBaseLine是一个联合类型)
+    textBaseline: 'middle' as 'middle', // Text alignment baseline (textBaseLine is a union type in ts)
     // eslint-disable-next-line
-    textAlign: 'center' as 'center', // 文字对齐方式
-    longColor: isDark.value ? '#E5E7EB' : '#374151', // 长线段颜色
-    shortColor: isDark.value ? '#9CA3AF' : '#6B7280', // 短线段颜色
-    textColor: isDark.value ? '#E5E7EB' : '#374151', // 文字颜色
-    subTextColor: isDark.value ? '#9CA3AF' : '#6B7280', // 小文字颜色
-    focusColor: isDark.value ? '#6D28D9' : '#C4B5FD' // 选中元素区间
+    textAlign: 'center' as 'center', // Text alignment
+    longColor: isDark.value ? '#E5E7EB' : '#374151', // Long segment color
+    shortColor: isDark.value ? '#9CA3AF' : '#6B7280', // Short segment color
+    textColor: isDark.value ? '#E5E7EB' : '#374151', // Text color
+    subTextColor: isDark.value ? '#9CA3AF' : '#6B7280', // Small text color
+    focusColor: isDark.value ? '#6D28D9' : '#C4B5FD' // Selected element interval
   }));
   const canvasAttr = reactive({
     width: 0,
@@ -75,11 +75,11 @@
       height: `${canvasAttr.height / canvasConfigs.value.ratio}px`
     };
   });
-  // 重绘线条
+  // Redraw lines
   function updateTimeLine() {
     drawTimeLine(canvasContext, { ...props } as UserConfig, { ...canvasAttr, ...canvasConfigs.value } as CanvasConfig);
   }
-  // 设置 canvas 上下文环境
+  // Set canvas context environment
   function setCanvasContext() {
     canvasContext = timeLine.value.getContext('2d');
     canvasContext.font = `${canvasConfigs.value.textSize * canvasConfigs.value.ratio}px -apple-system, ".SFNSText-Regular", "SF UI Text", "PingFang SC", "Hiragino Sans GB", "Helvetica Neue", "WenQuanYi Zen Hei", "Microsoft YaHei", Arial, sans-serif`;
@@ -87,7 +87,7 @@
     canvasContext.textBaseline = canvasConfigs.value.textBaseline;
     canvasContext.textAlign = canvasConfigs.value.textAlign;
   }
-  // 设置 canvas 大小
+  // Set canvas size
   function setCanvasRect() {
     const { width, height } = canvasContainer.value.getBoundingClientRect();
     canvasAttr.width = width * canvasConfigs.value.ratio;

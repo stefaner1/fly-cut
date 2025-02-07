@@ -36,7 +36,7 @@ export const useScrollPage = (el, loadMore, options) => {
     pageIndex = 1;
     finished = false;
     loading = true;
-    // 如何再次触发加载，并且不再次触发加载
+    // How to trigger loading again without re-triggering loading
     search();
   }
 

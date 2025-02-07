@@ -2,7 +2,7 @@
   <div class="p-4 flex-1 overflow-hidden flex flex-col">
     <div class="bg-zinc-200 h-10 flex items-center justify-center rounded text-sm text-gray-900 cursor-pointer" @click="onUpload">
       <i class="iconfont icon-shangchuan_line mr-2" />
-      本地音频
+      Local Audio
     </div>
   </div>
 </template>
@@ -26,28 +26,28 @@
   const playStore = usePlayerState();
 
   async function onUpload() {
-    // 上传素材
+    // Upload material
     const files = await selectFile({ accept: 'audio/*,image/*,.mp4,.mov', multiple: true });
 
-    // 1.根据素材的文件类型做不同的处理
-    // 2.处理素材
-    // 3.存储素材信息
-    // 4.存储素材
+    // 1. Handle differently based on material file type
+    // 2. Process material
+    // 3. Store material information
+    // 4. Store material
     // Array.from(files).map(async file => {
     //   const id = await getMD5(await file.arrayBuffer());
     //   if (file.type.includes('audio')) {
-    //     // 处理音频
+    //     // Process audio
     //     const clip = await audioDecoder.decode({ id, stream: file.stream(), type: file.type });
 
     //     if (!clip) {
-    //       // 提示解析视频失败
-    //       ElMessage.error('解析音频失败');
+    //       // Alert audio parsing failed
+    //       ElMessage.error('Audio parsing failed');
     //       return Promise.reject();
     //     }
     //   } else if (file.type.includes('image')) {
-    //     // 处理图片
+    //     // Process image
     //   } else if (file.type.includes('video')) {
-    //     // 处理视频
+    //     // Process video
     //   }
     // });
 
@@ -56,8 +56,8 @@
     const clip = await audioDecoder.decode({ id, stream: files[0].stream(), type: files[0].type });
 
     if (!clip) {
-      // 提示解析视频失败
-      ElMessage.error('解析音频失败');
+      // Alert audio parsing failed
+      ElMessage.error('Audio parsing failed');
       return;
     }
 

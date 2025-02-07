@@ -1,5 +1,5 @@
 /**
- * 比较文件大小，第一个参数为文件大小，为纯数字，第二个参数为目标大小，是一个数字+单位的字符串，如'1MB'
+ * Compare file sizes, first parameter is file size as a pure number, second parameter is target size as a number+unit string, like '1MB'
  * @param size
  * @param target
  */
@@ -26,7 +26,7 @@ let policy: OSSPolicy | undefined;
   policy = await response.json();
 })();
 
-// 上传文件并获取URL
+// Upload file and get URL
 export const uploadFile = (file: File, onProgress?: (percentComplete: string) => any): Promise<string> => {
   if (!policy) {
     console.error('OSS policy is not set');
@@ -37,7 +37,7 @@ export const uploadFile = (file: File, onProgress?: (percentComplete: string) =>
   // 'key' : g_object_name,
   // 'policy': policyBase64,
   // 'OSSAccessKeyId': accessid, 
-  // 'success_action_status' : '200', //让服务端返回200,不然，默认会返回204
+  // 'success_action_status' : '200', // Make server return 200, otherwise it defaults to 204
   // 'callback' : callbackbody,
   // 'signature': signature,
   formData.append('policy', policy.policy);
@@ -50,7 +50,7 @@ export const uploadFile = (file: File, onProgress?: (percentComplete: string) =>
 
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
-    // 为请求设置headers
+    // Set request headers
     xhr.open('POST', policy.host);
     xhr.onload = () => {
       if (xhr.status === 200) {
@@ -80,9 +80,9 @@ interface FileUploadOptions {
 
 export const selectFile = (options: FileUploadOptions): Promise<File[]> => {
   return new Promise((resolve, reject) => {
-    // 创建input[file]元素
+    // Create input[file] element
     const input = document.createElement('input');
-    // 设置相应属性
+    // Set corresponding attributes
     input.setAttribute('type', 'file');
     input.setAttribute('accept', options.accept);
     if (options.multiple) {
@@ -90,10 +90,10 @@ export const selectFile = (options: FileUploadOptions): Promise<File[]> => {
     } else {
       input.removeAttribute('multiple');
     }
-    // 绑定事件
+    // Bind events
     input.onchange = function() {
       let files = Array.from(this.files);
-      // 获取文件列表
+      // Get file list
       if (files) {
         const length = files.length;
         files = files.filter(file => {
@@ -105,12 +105,12 @@ export const selectFile = (options: FileUploadOptions): Promise<File[]> => {
         });
         if (files && files.length > 0) {
           if (length !== files.length) {
-            // message.warning(`已过滤上传文件中大小大于${options.max}的文件`);
+            // message.warning(`Files larger than ${options.max} have been filtered out`);
           }
           resolve(files);
         } else {
-          // message.warning(`上传文件大小不能大于${options.max}`);
-          reject(new Error(`上传文件大小不能大于${options.max}`));
+          // message.warning(`Upload file size cannot exceed ${options.max}`);
+          reject(new Error(`Upload file size cannot exceed ${options.max}`));
         }
       } else {
         reject(new Error('No files selected'));
@@ -141,7 +141,7 @@ export const getVideoCoverUrl = (url: string) => {
   return `${url}?x-oss-process=video/snapshot,t_0,f_png,w_720,m_fast,ar_auto`;
 };
 
-// 计算文件大小
+// Calculate file size
 export const getFileSize = (size: number): string => {
   if (!size) return '0 B';
   const k = 1024;
@@ -150,7 +150,7 @@ export const getFileSize = (size: number): string => {
   return `${(size / k ** i).toFixed(2)} ${sizes[i]}`;
 };
 
-// 将Base64数据转换为Blob对象
+// Convert Base64 data to Blob object
 export function base64ToBlob(base64Data: string, contentType: string) {
   contentType = contentType || '';
   const sliceSize = 1024;
@@ -172,7 +172,7 @@ export function base64ToBlob(base64Data: string, contentType: string) {
   return new Blob(byteArrays, { type: contentType });
 }
 
-// 将Blob对象转换为File对象
+// Convert Blob object to File object
 export function blobToFile(blob: Blob, fileName: string) {
   const file = new File([blob], fileName, { type: blob.type });
   return file;
@@ -180,7 +180,7 @@ export function blobToFile(blob: Blob, fileName: string) {
 
 // const fontList = fontJson
 
-// // 下载贴图字体
+// // Download sticker font
 // export function downStickerFont(layers) {
 //   return Promise.all(
 //     layers.map((item: any) => {
@@ -197,7 +197,7 @@ export async function getResourceType4Response(url: string) {
   try {
     const response = await fetch(url);
     const contentType = response.headers.get('Content-Type');
-    return contentType || null; // 如果没有 Content-Type 头，返回null
+    return contentType || null; // Return null if no Content-Type header
   } catch (error) {
     console.error('Error fetching image type:', error);
     return null;

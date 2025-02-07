@@ -6,11 +6,11 @@ interface Moudle {
   default: RouteRecordRaw
 }
 
-// 将modules下的全部路由配置文件加载到routes中
+// Load all router configuration files from modules into routes
 const moduleRouterList = import.meta.glob('pages/routers/*.ts', { eager: true });
 for (const path in moduleRouterList) {
   const routerInstance = (moduleRouterList[path] as Moudle).default;
-  // 自动关联routers与views 下的同名文件
+  // Automatically associate routers with files of the same name under views
   routerInstance.component = () => import(`@/pages/views/${routerInstance.name as string}.vue`);
   routes.push(routerInstance);
 }

@@ -1,32 +1,32 @@
 ---
 name: Bug report
-about: 如果遇到异常，请提交一个 Bug report 给我们
-title: "【BUG】"
+about: If you encounter an issue, please submit a Bug report to us
+title: "[BUG]"
 labels: ''
-assignees: Cc-Edit
-
+assignees: ''
 ---
 
-**描述**
-请描述遇到的问题😊
+**Description**
+Please describe the issue you encountered 😊
 
-**异常信息**
-请将异常信息粘贴到此处📝
+**Error Information**
+Please paste the error information here 📝
 
-**复现路径**
-最小复现路径为：
-1. 首先点击...
-2. 然后点击.....
-3. 然后输入......
-4. 出现报错
+**Steps to Reproduce**
+Minimal steps to reproduce:
 
-**预期**
-您期望的结果是?
+1. First click...
+2. Then click...
+3. Then enter...
+4. Error appears
 
-**截屏**
-如果能提交截图那就太棒了
+**Expected Behavior**
+What was the expected result?
 
-**系统信息:**
- - OS:  
- - Browser：
- - Browser Version
+**Screenshots**
+It would be great if you could provide screenshots
+
+**System Information:**
+ - OS:
+ - Browser:
+ - Version:

@@ -51,9 +51,9 @@
 
   const el = ref();
 
-  // 定位数据缓存
+  // Position data cache
   let positionLeft = 0;
-  // 手柄可操作的属性配置
+  // Handler operation configuration
   let handlerData = {
     isVA: false,
     start: 0,
@@ -68,10 +68,10 @@
   let enableMove = false;
   let otherCoords: { left: number, right: number, start: number, end: number }[] = [];
 
-  // 获取吸附辅助线
+  // Get snap guide lines
   function getFixLine(x: number, distance = 10) {
-    // otherCoords、游标位置
-    // 先获取与拖拽元素left、right，距离小于distance的元素
+    // otherCoords, cursor position
+    // First get elements with left/right distance less than distance from drag element
     const result = [];
     otherCoords.forEach(coord => {
       if (Math.abs(coord.left - x) <= distance) {
@@ -81,7 +81,7 @@
         result.push({ position: coord.right, frame: coord.end });
       }
     });
-    // 获取与游标位置距离小于distance的元素
+    // Get elements with distance less than distance from cursor position
     const trackPlayPointX = getGridPixel(store.trackScale, playerStore.playStartFrame);
     if (Math.abs(trackPlayPointX - x) <= distance) {
       result.push({ position: trackPlayPointX, frame: playerStore.playStartFrame });
@@ -92,14 +92,14 @@
 
   let fixPosition = { left: 0, right: 0 };
 
-  // 设置吸附
+  // Set snapping
   function adsorption(x: number, lines: { position: number, frame: number }[]) {
     if (lines.length === 0) {
       fixPosition = { left: 0, right: 0, start: 0, end: 0 };
       return;
     }
-    // 吸附其实就是移动拖拽元素的位置
-    // 找到最近的线，计算移动的距离
+    // Snapping is essentially moving the drag element position
+    // Find closest line, calculate movement distance
     const minLeftLine = lines.reduce((r, item) => {
       return Math.abs(item.position - x) < Math.abs(r.position - x) ? item : r;
     }, { position: Number.MAX_SAFE_INTEGER, frame: 0 });
@@ -118,14 +118,14 @@
       end: trackItem.end,
       offsetR: trackItem.offsetR,
       offsetL: trackItem.offsetL,
-      minStart: beforeTrack ? beforeTrack.end : 0, // 可以调节的最小start
-      maxStart: trackItem.end - 1, // 最少要保留一帧数据
+      minStart: beforeTrack ? beforeTrack.end : 0, // Minimum adjustable start
+      maxStart: trackItem.end - 1, // Keep at least one frame of data
       minEnd: trackItem.start + 1,
-      maxEnd: afterTrack ? afterTrack.start : (30 * 60 * 60) // 最长一小时
+      maxEnd: afterTrack ? afterTrack.start : (30 * 60 * 60) // Maximum one hour
     };
-    if (isVA) { // 音视频结尾受资源大小限制
-      const rightMaxWidth = (trackItem.frameCount - limitData.offsetL); // 右侧最大宽度
-      const leftMaxWidth = (trackItem.frameCount - limitData.offsetR);// 左侧最大宽度
+    if (isVA) { // Video/audio end is limited by resource size
+      const rightMaxWidth = (trackItem.frameCount - limitData.offsetL); // Maximum width on right
+      const leftMaxWidth = (trackItem.frameCount - limitData.offsetR);// Maximum width on left
       limitData.maxEnd = afterTrack ? (Math.min(afterTrack.start, limitData.start + rightMaxWidth)) : Math.min(rightMaxWidth + limitData.start, (30 * 60 * 60));
       limitData.minStart = beforeTrack ? (Math.max(beforeTrack.end, limitData.end - leftMaxWidth)) : Math.max(limitData.end - leftMaxWidth, 0);
     }
@@ -138,32 +138,32 @@
     const originWidth = originEnd - originStart;
     const leftMaxWidth = offsetL + originWidth;
     const rightMaxWidth = offsetR + originWidth;
-    if (handleType === 'left') { // 操作左侧手柄
+    if (handleType === 'left') { // Operating left handle
       let newStart = originStart + frameCount;
       if (newStart > maxStart) newStart = maxStart;
       if (newStart < minStart) newStart = minStart;
       let diffStart = newStart - originStart;
-      if (isVA) { // 音视频的手柄操作限制在资源长度内，向内则视为资源裁切，裁切部分为 offset
-        if (originEnd - newStart > leftMaxWidth) { // 音视频存在长度限制，手柄向内则截取， 向外展开截取，但是不能超过总长度
+      if (isVA) { // Video/audio handle operation is limited to resource length, inward is considered as resource trimming, trimmed part is offset
+        if (originEnd - newStart > leftMaxWidth) { // Video/audio has length limit, handle inward trims, outward expands but cannot exceed total length
           newStart = originEnd - leftMaxWidth;
           diffStart = newStart - originStart;
         }
         store.trackList[props.lineIndex].list[props.itemIndex].offsetL = Math.max(offsetL + diffStart, 0);
-      } else { // 其他资源操作无限制
+      } else { // Other resources have no limit
         store.trackList[props.lineIndex].list[props.itemIndex].frameCount = originEnd - newStart;
       }
       store.trackList[props.lineIndex].list[props.itemIndex].start = newStart;
-    } else { // 右侧手柄
+    } else { // Right handle
       let newEnd = originEnd + frameCount;
       if (newEnd > maxEnd) newEnd = maxEnd;
       if (newEnd < minEnd) newEnd = minEnd;
-      if (isVA) { // 音视频的手柄操作限制在资源长度内，向内则视为资源裁切，裁切部分为 offset
-        if (newEnd - originStart > rightMaxWidth) { // 音视频存在长度限制，手柄向内则截取， 向外展开截取，但是不能超过总长度
+      if (isVA) { // Video/audio handle operation is limited to resource length, inward is considered as resource trimming, trimmed part is offset
+        if (newEnd - originStart > rightMaxWidth) { // Video/audio has length limit, handle inward trims, outward expands but cannot exceed total length
           newEnd = originStart + rightMaxWidth;
         }
         const diffEnd = newEnd - originEnd;
         store.trackList[props.lineIndex].list[props.itemIndex].offsetR = Math.max(offsetR - diffEnd, 0);
-      } else { // 其他资源操作无限制
+      } else { // Other resources have no limit
         store.trackList[props.lineIndex].list[props.itemIndex].frameCount = newEnd - originStart;
       }
       store.trackList[props.lineIndex].list[props.itemIndex].end = newEnd;
@@ -204,7 +204,7 @@
       if (!enableMove) return;
       const { pageX } = documentEvent;
       const moveWidth = positionLeft - pageX;
-      // 显示吸附线
+      // Show snap lines
       const lines = getFixLine(position - moveWidth);
 
       store.dragData.fixLines = [lines];

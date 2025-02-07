@@ -1,18 +1,18 @@
 import { mappingFormItem } from '@/utils/formItemUtils';
-// 元素属性配置
+// Element property configuration
 export const Options = {
     attributes: [
         mappingFormItem('Tabs', {
             children: [
                 mappingFormItem('TabPane', {
-                    name: '属性',
+                    name: 'Properties',
                     children: [
                         mappingFormItem('Collapse', {
                             children: [
                                 mappingFormItem('CollapsePane', {
-                                    name: '基础',
+                                    name: 'Basic',
                                     children: [
-                                        mappingFormItem('Boolean', { name: '静音', mappingKey: 'silent', defaultValue: false })
+                                        mappingFormItem('Boolean', { name: 'Mute', mappingKey: 'silent', defaultValue: false })
                                     ]
                                 })
                             ]
@@ -20,7 +20,7 @@ export const Options = {
                     ]
                 }),
                 mappingFormItem('TabPane', {
-                    name: '动画',
+                    name: 'Animation',
                     children: []
                 })
             ]

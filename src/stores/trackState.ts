@@ -4,39 +4,39 @@ import { checkTrackListOverlap } from '@/utils/storeUtil';
 import type { Track, TrackLineItem } from '@/class/Track';
 
 export const useTrackState = defineStore('trackState', () => {
-  const dragData = reactive({ // 拖拽数据
+  const dragData = reactive({ // Drag data
     dataInfo: {} as Track,
     dragType: '',
     dragPoint: {
       x: 0,
       y: 0
     },
-    // 吸附辅助线
+    // Snap assist lines
     fixLines: [] as { position: number, frame: number }[][],
     moveX: 0,
     moveY: 0
   });
-  const moveTrackData = reactive({ // 行内移动
+  const moveTrackData = reactive({ // Inline movement
     lineIndex: -1,
     itemIndex: -1
   });
-  // 轨道放大比例
+  // Track zoom ratio
   const trackScale = ref(parseInt(localStorage.trackS || '60'));
   const trackList = reactive<TrackLineItem[]>([]);
 
-  // 选中元素坐标
+  // Selected element coordinates
   const selectTrackItem = reactive({
     line: -1,
     index: -1
   });
-  // 选中元素
+  // Selected element
   const selectResource = computed(() => {
     if (selectTrackItem.line === -1) {
       return null;
     }
     return trackList[selectTrackItem.line]?.list[selectTrackItem.index] || null;
   });
-  // 删除元素
+  // Delete element
   function removeTrack(lineIndex: number, itemIndex: number) {
     trackList[lineIndex].list.splice(itemIndex, 1);
     if (trackList[lineIndex].list.length === 0 && !trackList[lineIndex].main) {
@@ -46,13 +46,13 @@ export const useTrackState = defineStore('trackState', () => {
       trackList.splice(0, 1);
     }
   }
-  // 复用已有行
+  // Reuse existing line
   // function insertExistingLine(item: TrackItem, insertLine: { line: number, index: number }) {
   //   trackList[insertLine.line].list.splice(insertLine.index, 0, item);
   //   selectTrackItem.line = insertLine.line;
   //   selectTrackItem.index = insertLine.index;
   // }
-  // 插入新行
+  // Insert new line
   // function insertNewLine(item: TrackItem) {
   //   const isVA = ['video', 'audio'].includes(item.type);
   //   trackList[isVA ? 'push' : 'unshift']({
@@ -62,33 +62,33 @@ export const useTrackState = defineStore('trackState', () => {
   //   selectTrackItem.line = isVA ? trackList.length - 1 : 0;
   //   selectTrackItem.index = 0;
   // }
-  // 移动目标行
+  // Move target line
   // function moveTargetLine(item: TrackItem, insertLine: { line: number, index: number }) {
   //   let { lineIndex: moveLineIndex = -1, itemIndex: moveIndex = -1 } = moveTrackData;
-  //   // 将原本的数据设置为undefined，避免在插入时被删除
+  //   // Set original data to undefined to avoid deletion during insertion
   //   trackList[moveLineIndex].list.splice(moveIndex, 1, undefined);
-  //   // 在插入行设置数据
+  //   // Set data in insertion line
   //   trackList[insertLine.line].list.splice(insertLine.index, 0, item);
-  //   // 遍历删除undefined
+  //   // Iterate to delete undefined
   //   trackList[moveLineIndex].list = trackList[moveLineIndex].list.filter(elem => elem);
 
   //   if (trackList[moveLineIndex].list.length === 0 && !trackList[moveLineIndex].main) {
   //     trackList.splice(moveLineIndex, 1);
   //   }
   // }
-  // 目标行不可用，则移动到目标之后、之前
+  // If target line unavailable, move to after/before target
   // function moveLine(item: TrackItem, targetLineIndex: number) {
   //   let { lineIndex: moveLineIndex = -1, itemIndex: moveIndex = -1 } = moveTrackData;
   //   trackList.splice(targetLineIndex, 0, {
   //     type: item.type,
   //     list: [item]
   //   });
-  //   if (moveLineIndex !== -1 && moveIndex !== -1) { // 移动到新行，删除老数据
+  //   if (moveLineIndex !== -1 && moveIndex !== -1) { // Move to new line, delete old data
   //     if (targetLineIndex <= moveLineIndex) {
-  //       moveLineIndex++; // 如果在移除元素前面插入，则移除下标自增
+  //       moveLineIndex++; // If inserting before removed element, increment removal index
   //     }
   //     if (trackList[moveLineIndex].list.length === 1 && targetLineIndex > moveLineIndex) {
-  //       targetLineIndex--; // 如果在移除元素前面插入，选中元素列上移
+  //       targetLineIndex--; // If inserting before removed element, selected element column moves up
   //     }
   //     removeTrack(moveLineIndex, moveIndex, false);
   //   }
@@ -106,10 +106,10 @@ export const useTrackState = defineStore('trackState', () => {
     });
   }
   /**
-   * 添加片段逻辑：
-   * 输入：新增片段
-   * 查询是否存在同类型轨道，且无重叠部分，存在则插入，不存在则新建轨道
-   * 没有轨道时，新增轨道插入
+   * Add segment logic:
+   * Input: New segment
+   * Check if track of same type exists and has no overlap, if exists then insert, if not then create new track
+   * When no track exists, create new track and insert
    */
   function addTrack(newItem: Track) {
     const lines = trackList.filter(line => line.type === newItem.type);

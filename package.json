@@ -4,7 +4,7 @@
   "license": "Apache 2.0",
   "private": true,
   "homepage": "https://github.com/x007xyz/fly-cut.git",
-  "description": "About A web-based video editing tool implemented with WebCodecs, similar to CapCut Web.使用webcodecs实现的Web端视频编辑工具，类似剪映Web版。",
+  "description": "About A web-based video editing tool implemented with WebCodecs, similar to CapCut Web. A web-based video editing tool implemented with WebCodecs, similar to CapCut Web version.",
   "keywords": [
     "WebCodecs",
     "video-editor",
@@ -57,7 +57,7 @@
     "@types/webpack-env": "^1.18.0",
     "@vitejs/plugin-basic-ssl": "^1.0.1",
     "@vitejs/plugin-vue": "^4.0.0",
-    "@vue-hooks-plus/resolvers": "^1.2.1",
+    "@vue-hooks-plus/resolvers": "^1.2.5",
     "@vue/eslint-config-typescript": "^11.0.0",
     "@vue/test-utils": "^2.2.6",
     "@vue/tsconfig": "^0.1.3",

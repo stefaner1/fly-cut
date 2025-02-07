@@ -62,20 +62,20 @@ draggable="false"
 
     const start = performance.now();
     /**
-     * 缩略图可以优化：
-     * TODO：可视区域渲染
+     * Thumbnails can be optimized:
+     * TODO: Render visible area only
      */
     const thumbnails = await videoDecoder.thumbnails(source);
 
-    console.log(`生成${thumbnails.length}张缩略图耗时`, performance.now() - start, 'ms');
+    console.log(`Generated ${thumbnails.length} thumbnails in`, performance.now() - start, 'ms');
 
     imgs.value = thumbnails.map(({ img }) => {
       return URL.createObjectURL(img);
     });
 
-    console.log('缩略图连接耗时', performance.now() - start, 'ms');
+    console.log('Thumbnail linking time:', performance.now() - start, 'ms');
     /**
-     * TODO: 视频声音波形图
+     * TODO: Video audio waveform
      */
 
     loading.value = false;
@@ -93,13 +93,13 @@ draggable="false"
   });
 
   function getUniformSubarray(array, m) {
-    // 计算采样间隔
+    // Calculate sampling interval
     const interval = array.length / m;
 
-    // 使用顺序采样的方法选取元素
+    // Use sequential sampling method to select elements
     const subarray = [];
     for (let i = 0; i < array.length && subarray.length < m; i += interval) {
-      // 只有当元素数量还没有达到m时，才添加元素
+      // Only add elements when the count hasn't reached m
       subarray.push(array[Math.min(Math.round(i), array.length - 1)]);
     }
 

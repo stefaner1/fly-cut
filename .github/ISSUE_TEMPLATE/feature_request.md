@@ -1,19 +1,18 @@
 ---
 name: Feature request
-about: 如果您对项目有什么新的想法，请提交一个Feature request 给我们
-title: "【Feature】"
+about: If you have any new ideas for the project, please submit a Feature request to us
+title: "[Feature]"
 labels: ''
-assignees: Cc-Edit
-
+assignees: ''
 ---
 
-**方案来源**
-请描述您为什么提出这个方案？
-是因为某些实现导致您的工作量增加
-或者是在某些场景下性能很糟糕
+**Motivation**
+Please describe why you are proposing this feature.
+Is it because certain implementations increase your workload?
+Or because performance is poor in certain scenarios?
 
-**方案**
-清晰的描述您的方案~
+**Proposal**
+Clearly describe your proposal~
 
-**其他**
-除了上述方案外，您有没有其他备选方案？
+**Alternatives**
+Besides the above proposal, do you have any alternative solutions?

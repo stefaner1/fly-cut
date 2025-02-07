@@ -1,28 +1,28 @@
 import { mappingFormItem } from '@/utils/formItemUtils';
-// 元素属性配置
+// Element property configuration
 export const Options = {
     attributes: [
         mappingFormItem('Tabs', {
             children: [
                 mappingFormItem('TabPane', {
-                    name: '画面',
+                    name: 'Display',
                     children: [
                         mappingFormItem('TabsCard', {
                             children: [
                                 mappingFormItem('TabPane', {
-                                    name: '基础',
+                                    name: 'Basic',
                                     children: [
                                         mappingFormItem('Collapse', {
                                             children: [
                                                 mappingFormItem('CollapsePane', {
-                                                    name: '基础',
+                                                    name: 'Basic',
                                                     children: [
                                                         mappingFormItem('Slider', { attr: {
                                                                 min: 1,
                                                                 max: 100,
                                                                 step: 1
-                                                            }, name: '缩放', mappingKey: 'scale' }),
-                                                        mappingFormItem('Flex', { attr: { col: 2 }, name: '位置', children: [
+                                                            }, name: 'Scale', mappingKey: 'scale' }),
+                                                        mappingFormItem('Flex', { attr: { col: 2 }, name: 'Position', children: [
                                                                 mappingFormItem('Number', { attr: {
                                                                         controlsPosition: 'right'
                                                                     }, name: 'x', mappingKey: 'position.x' }),
@@ -30,17 +30,17 @@ export const Options = {
                                                                         controlsPosition: 'right'
                                                                     }, name: 'y', mappingKey: 'position.y' })
                                                             ] }),
-                                                        mappingFormItem('Number', { name: '旋转', mappingKey: 'position' }),
-                                                        mappingFormItem('Color', { name: '背景颜色', mappingKey: 'color' }),
+                                                        mappingFormItem('Number', { name: 'Rotation', mappingKey: 'position' }),
+                                                        mappingFormItem('Color', { name: 'Background Color', mappingKey: 'color' }),
                                                         mappingFormItem('TextArea', { attr: {
                                                                 autosize: {
                                                                     minRows: 1,
                                                                     maxRows: 4
                                                                 },
-                                                                placeholder: '请输入'
-                                                            }, name: '文字', mappingKey: 'color1' }),
+                                                                placeholder: 'Please enter'
+                                                            }, name: 'Text', mappingKey: 'color1' }),
                                                         mappingFormItem('Boolean', { name: 'switch', mappingKey: 'color2' }),
-                                                        mappingFormItem('String', { attr: { placeholder: '请输入数字' }, name: 'string', mappingKey: 'color3' }),
+                                                        mappingFormItem('String', { attr: { placeholder: 'Please enter a number' }, name: 'string', mappingKey: 'color3' }),
                                                         mappingFormItem('Radio', { name: 'Radio', mappingKey: 'color4', defaultValue: 'o1', children: [
                                                                 mappingFormItem('RadioItem', { name: 'o1', value: 'o1' }),
                                                                 mappingFormItem('RadioItem', { name: 'o2', value: 'o2' })
@@ -58,10 +58,10 @@ export const Options = {
                                         mappingFormItem('Collapse', {
                                             children: [
                                                 mappingFormItem('CollapsePane', {
-                                                    name: '混合',
+                                                    name: 'Blend',
                                                     children: [
                                                         mappingFormItem('Slider', {
-                                                            name: '不透明度',
+                                                            name: 'Opacity',
                                                             mappingKey: 'opacity'
                                                         })
                                                     ]
@@ -71,10 +71,10 @@ export const Options = {
                                     ]
                                 }),
                                 mappingFormItem('TabPane', {
-                                    name: '背景',
+                                    name: 'Background',
                                     children: [
                                         mappingFormItem('FormItem', {
-                                            name: '不透明度',
+                                            name: 'Opacity',
                                             dataType: 'Slider',
                                             mappingKey: 'opacity'
                                         })
@@ -85,7 +85,7 @@ export const Options = {
                     ]
                 }),
                 mappingFormItem('TabPane', {
-                    name: '动画',
+                    name: 'Animation',
                     children: []
                 })
             ]

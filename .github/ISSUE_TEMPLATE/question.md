@@ -1,18 +1,18 @@
 ---
 name: Question
-about: 如果您遇到问题，实在找不到解决它的办法，也可以提交一个 question 给我们
-title: "【Q】"
+about: If you encounter a problem and can't find a solution, you can submit a question to us
+title: "[Q]"
 labels: ''
 assignees: ''
-
 ---
 
-**注意**
-我们不建议在issue中讨论其他问题，因为它超出了团队的工作范围。
-当然，作为朋友，我们也愿意做你最后的求助对象🤗
+**Note**
+We do not recommend discussing other issues in the issue tracker as they are outside the team's scope.
 
-**描述**
-请尽可能的描述您的问题
+However, as friends, we are willing to be your last resort for help 🤗
 
-**思路**
-您对解决该问题做了哪些努力？最终失败的原因是什么？
+**Description**
+Please describe your question in as much detail as possible
+
+**Approach**
+What efforts have you made to solve this problem? What were the reasons for failure?

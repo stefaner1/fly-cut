@@ -10,14 +10,14 @@
       <div class="ml-2">
         <img class="h-8" src="@/assets/text_logo.png" alt="">
       </div>
-      <!-- <span class="text-xs select-none ml-4">自动保存：2023-02-10 00:51</span> -->
+      <!-- <span class="text-xs select-none ml-4">Auto save: 2023-02-10 00:51</span> -->
     </div>
     <div class="flex w-1/3 flex-row-reverse pr-10 items-center">
       <ElButton color="#683CFD" size="default" @click="onGenerate">
         <ElIcon :size="size" color="#fff" class="mr-1">
           <Download />
         </ElIcon>
-        合成视频
+        Generate Video
       </ElButton>
       <el-switch
         class="mr-10"
@@ -58,10 +58,10 @@
   }));
 
   const onGenerate = async() => {
-    const loading = ElLoading.service({ text: '正在合成视频' });
+    const loading = ElLoading.service({ text: 'Generating video' });
     const start = performance.now();
     const sprs: Promise<OffscreenSprite>[] = [];
-    // 使用OffscreenSprite和Combinator进行视频合成
+    // Use OffscreenSprite and Combinator for video composition
     for (const track of trackState.trackList.reduce((res, { list }) => res.concat(list), [] as Track[])) {
       if (track instanceof AudioTrack) {
         sprs.push(toRaw(track).combine());
@@ -72,7 +72,7 @@
 
     const sprites = await Promise.all(sprs);
 
-    console.log('生成sprite耗时', performance.now() - start, 'ms');
+    console.log('Sprite generation time:', performance.now() - start, 'ms');
 
     const com = new Combinator({
       width: 1080,
@@ -85,15 +85,15 @@
       return com.addSprite(sprite);
     }));
 
-    console.log('合成耗时', performance.now() - start, 'ms');
+    console.log('Composition time:', performance.now() - start, 'ms');
 
     await com.output().pipeTo(await createFileWriter());
 
     loading.close();
 
-    ElMessage.success('合成视频成功');
+    ElMessage.success('Video generated successfully');
 
-    console.log('导出文件耗时', performance.now() - start, 'ms');
+    console.log('File export time:', performance.now() - start, 'ms');
   };
 
   function openGithub() {

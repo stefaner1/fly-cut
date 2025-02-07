@@ -6,7 +6,7 @@
         <div
             class="z-10 flex justify-center items-center w-12 text-center mb-1 mt-1"
             :class="[TrackHeightMap.get(lineData.type), lineData.main ? 'bg-blue-500 bg-opacity-20' : '']"
-            :title="lineData.main ? '主轨道' : ''"
+            :title="lineData.main ? 'Main Track' : ''"
         >
           <component :is="componentMap.get(lineData.type)" />
         </div>

@@ -109,7 +109,7 @@
 <script setup lang="ts">
   import ColorPicker from '@/components/item/formItem/color/ColorPicker.vue';
   import AttrContainer from '@/components/item/formItem/AttrContainer.vue';
-  import { ref, computed } from 'vue';
+  import { ref, computed, toRaw } from 'vue';
   import { useTrackState } from '@/stores/trackState';
   import { storeToRefs } from 'pinia';
   import { get, set } from 'lodash-es';
@@ -126,7 +126,7 @@
     }
   });
   const trackStore = useTrackState();
-  const activeIndex = ref(props.componentData.defaultValue); // 内部状态
+  const activeIndex = ref(props.componentData.defaultValue); // Internal state
   const { selectResource, selectTrackItem, trackList } = storeToRefs(trackStore);
   const formValue = computed({
     get() {

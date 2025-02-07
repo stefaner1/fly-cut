@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { checkTrackItemOverlap } from '../trackUtils'; // 替换为你的模块路径
+import { checkTrackItemOverlap } from '../trackUtils'; // Replace with your module path
 import type { BaseTractItem } from '@/class/Base';
 
 describe('checkTrackItemOverlap', () => {
@@ -80,3 +80,4 @@ describe('checkTrackItemOverlap', () => {
         });
     });
 });
+
